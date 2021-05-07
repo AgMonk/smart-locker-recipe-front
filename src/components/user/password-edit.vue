@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {editPassword} from "../../assets/js/api/user-api";
+import {editPassword} from "../../assets/js/api/user/user-api";
 
 export default {
   name: "password-edit",

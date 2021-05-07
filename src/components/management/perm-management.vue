@@ -5,16 +5,12 @@
     <el-main style="padding: 5px">
       <el-table :data="data.records">
         <el-table-column label="ID" prop="id" width="50" />
-        <el-table-column label="姓名" prop="name" />
-        <el-table-column label="用户名" prop="username" />
-        <el-table-column label="电话" prop="phone" />
-        <el-table-column label="注册时间" prop="createdAt.timeString" />
-        <el-table-column label="可用状态" prop="available" >
-          <template slot-scope="s">
-            {{s.row.available?"正常":"停用"}}
+        <el-table-column label="备注" prop="remark" />
+        <el-table-column label="权限字符串">
+          <template slot-scope="scope">
+            {{scope.row.namespace}}:{{scope.row.action}}:{{scope.row.target}}
           </template>
         </el-table-column>
-
       </el-table>
     </el-main>
     <el-footer>
@@ -32,12 +28,14 @@
 
 <script>
 import {copyObj} from "../../assets/js/utils";
-import {page} from "../../assets/js/api/user/user-api";
+import {page} from "../../assets/js/api/user/role-api";
+import {basePage} from "../../assets/js/api/baseApi";
 
 export default {
-  name: "user-management",
+  name: "perm-management",
   data() {
     return {
+      prefix:"/permission",
       data:{
         records:[],
         total:50,
@@ -53,9 +51,8 @@ export default {
   },
   methods: {
     page(){
-      let p = copyObj(this.param.page)
-      p.success = (res) => this.$message(res.message)
-      page(p).then(res=>{
+      basePage(this.prefix,this.param.page,(res) => this.$message(res.message))
+      .then(res=>{
         let d = res.data;
         this.data.records = d.records;
         this.data.total = d.total;

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {login} from "../../assets/js/api/user-api";
+import {login} from "../../assets/js/api/user/user-api";
 import {clearCache} from "../../assets/js/requestUtils";
 
 export default {

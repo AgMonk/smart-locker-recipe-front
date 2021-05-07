@@ -9,7 +9,7 @@
             <el-form-item label="用户名">{{ userInfo.username }}</el-form-item>
             <el-form-item label="姓名">{{ userInfo.name }}</el-form-item>
             <el-form-item label="电话">{{ userInfo.phone }}</el-form-item>
-            <el-form-item label="注册时间">{{ userInfo.createdTime }}</el-form-item>
+            <el-form-item label="注册时间">{{ userInfo.createdAt.timeString }}</el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {userInfo} from "../../assets/js/api/user-api";
+import {userInfo} from "../../assets/js/api/user/user-api";
 import UserInfoEdit from "./user-info-edit";
 import PasswordEdit from "./password-edit";
 

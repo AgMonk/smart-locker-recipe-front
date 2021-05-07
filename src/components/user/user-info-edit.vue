@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {editUserInfo} from "../../assets/js/api/user-api";
+import {editUserInfo} from "../../assets/js/api/user/user-api";
 
 export default {
   name: "user-info-edit",

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {getStatus, logout} from "../../assets/js/api/user-api";
+import {getStatus, logout} from "../../assets/js/api/user/user-api";
 import Login from "../user/login";
 import Reg from "../user/reg";
 import {clearCache} from "../../assets/js/requestUtils";

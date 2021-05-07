@@ -16,8 +16,8 @@
 
 <script>
 import router from "./router";
-import {getStatus} from "../assets/js/api/user-api";
-import {hasRoles} from "../assets/js/api/role-api";
+import {getStatus} from "../assets/js/api/user/user-api";
+import {hasRoles} from "../assets/js/api/user/role-api";
 
 export default {
   name: "navi",

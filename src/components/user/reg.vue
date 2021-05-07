@@ -23,7 +23,7 @@
 
 <script>
 
-import {reg} from "../../assets/js/api/user-api";
+import {reg} from "../../assets/js/api/user/user-api";
 
 export default {
   name: "reg",

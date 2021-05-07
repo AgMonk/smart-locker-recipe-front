@@ -5,11 +5,13 @@
     <el-main>
       <el-tabs v-model="tabs">
         <el-tab-pane label="用户" name="用户">
-          <user-management />
+          <user-management v-if="tabs==='用户'" />
         </el-tab-pane>
          <el-tab-pane label="角色" name="角色">
+           <role-management v-if="tabs==='角色'" />
         </el-tab-pane>
         <el-tab-pane label="权限" name="权限">
+          <perm-management v-if="tabs==='权限'"  />
         </el-tab-pane>
       </el-tabs>
 
@@ -21,10 +23,12 @@
 
 <script>
 import UserManagement from "../management/user-management";
+import RoleManagement from "../management/role-management";
+import PermManagement from "../management/perm-management";
 
 export default {
   name: "management",
-  components: {UserManagement},
+  components: {PermManagement, RoleManagement, UserManagement},
   data() {
     return {
       tabs:"用户",

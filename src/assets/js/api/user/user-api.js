@@ -1,5 +1,5 @@
 //用户api
-import {request, requestWithCache} from "../requestUtils";
+import {request, requestWithCache} from "../../requestUtils";
 
 let prefix = "/user"
 
@@ -34,7 +34,7 @@ export const reg = ({username, password, name,phone,success})=>{
 }
 
 export const userInfo = ({success}) => {
-  return requestWithCache({
+  return request({
     url: prefix + "/info",
     namespace: "userInfo",
     success
@@ -42,8 +42,7 @@ export const userInfo = ({success}) => {
 }
 
 export const editUserInfo =({phone,name,success})=>{
-  return requestWithCache({
-    flush:true,
+  return request({
     data:{phone,name},
     url: prefix + "/editUserInfo",
     namespace: "userInfo",
@@ -59,11 +58,8 @@ export const editPassword = ({oldPass,newPass,success})=>{
   })
 }
 
-
-//管理接口
-
 export const page = ({page,size,condition,success})=>{
-  return requestWithCache({
+  return request({
     url: prefix + "/a/page",
     data:{page,size,condition},
     namespace: "user-page",
