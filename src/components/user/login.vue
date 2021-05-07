@@ -23,7 +23,7 @@ export default {
     return {
       param: {
         username: "admin_lzbx",
-        password: "123456",
+        password: "lzbx2837200",
       }
     }
   },

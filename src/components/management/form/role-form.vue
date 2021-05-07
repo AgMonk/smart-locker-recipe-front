@@ -1,6 +1,6 @@
 <template>
   <el-form :model="role" label-width="50px">
-    <el-form-item label="ID">{{ role.id }}</el-form-item>
+    <el-form-item label="ID" v-if="role.id">{{ role.id }}</el-form-item>
     <el-form-item label="名称">
       <el-input v-model="role.name"/>
     </el-form-item>
@@ -22,6 +22,7 @@
       </el-table>
     </el-form-item>
     <el-form-item label-width="0">
+      <el-button v-if="!role.id" type="danger" @click="perm={}">重置</el-button>
       <el-button type="success" @click="save">确认</el-button>
     </el-form-item>
   </el-form>
