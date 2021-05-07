@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import {copyObj} from "../../../assets/js/utils";
-import {baseFindAll, baseSave} from "../../../assets/js/api/baseApi";
+import {copyObj} from "../../../../assets/js/utils";
+import {baseFindAll, baseSave} from "../../../../assets/js/api/baseApi";
 
 export default {
   name: "role-form",

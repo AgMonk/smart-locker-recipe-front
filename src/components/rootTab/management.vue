@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import UserManagement from "../management/user-management";
-import RoleManagement from "../management/role-management";
-import PermManagement from "../management/perm-management";
+import UserManagement from "../management/user/user-management";
+import RoleManagement from "../management/user/role-management";
+import PermManagement from "../management/user/perm-management";
 
 export default {
   name: "management",

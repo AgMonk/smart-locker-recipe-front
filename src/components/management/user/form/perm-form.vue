@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import {baseSave} from "../../../assets/js/api/baseApi";
-import {copyObj} from "../../../assets/js/utils";
+import {baseSave} from "../../../../assets/js/api/baseApi";
+import {copyObj} from "../../../../assets/js/utils";
 
 export default {
   name: "perm-form",

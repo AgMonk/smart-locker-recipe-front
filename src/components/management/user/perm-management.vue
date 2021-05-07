@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import {copyObj} from "../../assets/js/utils";
-import {page} from "../../assets/js/api/user/role-api";
-import {baseDel, basePage} from "../../assets/js/api/baseApi";
+import {copyObj} from "../../../assets/js/utils";
+import {page} from "../../../assets/js/api/user/role-api";
+import {baseDel, basePage} from "../../../assets/js/api/baseApi";
 import PermForm from "./form/perm-form";
 
 export default {

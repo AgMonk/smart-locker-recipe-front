@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {baseDel, basePage} from "../../assets/js/api/baseApi";
+import {baseDel, basePage} from "../../../assets/js/api/baseApi";
 import RoleForm from "./form/role-form";
 
 export default {

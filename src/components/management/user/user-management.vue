@@ -26,18 +26,26 @@
         @current-change="page">
       </el-pagination>
     </el-footer>
+    <el-dialog :visible.sync="visible.userRole">
+      <user-role-management :id="1" />
+    </el-dialog>
   </el-container>
 
 </template>
 
 <script>
-import {copyObj} from "../../assets/js/utils";
-import {page} from "../../assets/js/api/user/user-api";
+import {copyObj} from "../../../assets/js/utils";
+import {page} from "../../../assets/js/api/user/user-api";
+import UserRoleManagement from "./user-role-management";
 
 export default {
   name: "user-management",
+  components: {UserRoleManagement},
   data() {
     return {
+      visible:{
+        userRole:true
+      },
       data:{
         records:[],
         total:50,
