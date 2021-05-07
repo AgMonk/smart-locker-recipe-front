@@ -1,0 +1,78 @@
+<template>
+  <div>
+    <el-menu :default-active="$route.path" active-text-color="#ffd04b"
+             background-color="#545c64"
+             class="el-menu-demo"
+             mode="horizontal"
+             text-color="#fff"
+             @select="select($event)"
+    >
+      <el-menu-item v-for="(item,i) in router" v-if="item.label" :key="i" :index="router[i].path" style="width: 60px">
+        <span class="tab">{{ item.label }}</span>
+      </el-menu-item>
+    </el-menu>
+  </div>
+</template>
+
+<script>
+import router from "./router";
+import {getStatus} from "../assets/js/api/user-api";
+import {hasRoles} from "../assets/js/api/role-api";
+
+export default {
+  name: "navi",
+  methods: {
+    clear() {
+      if (confirm("清除缓存?")) {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload();
+      }
+    },
+    select(e) {
+      if (e !== undefined && e !== null) {
+        window.location.href = "#" + e;
+      }
+    },
+    getStatus(route) {
+      if (route.path !== '/me') {
+        getStatus()
+          .then((res)=>{
+            hasRoles().then(res=>{
+              console.log(res)
+            })
+          })
+          .catch(() => {
+            this.select('/me')
+        })
+      }
+    }
+  },
+  data() {
+    return {
+      router: router,
+    }
+  },
+  mounted() {
+    this.getStatus(this.$route)
+  },
+  watch: {
+    "$route": {
+      handler(route) {
+        console.clear();
+        this.getStatus(route)
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+.tab {
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</style>
