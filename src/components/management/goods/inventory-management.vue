@@ -6,18 +6,11 @@
     </el-header>
     <el-main>
       <el-table :data="data.records">
-        <el-table-column label="类型" prop="type"/>
+<!--        <el-table-column label="类型" prop="type"/>-->
         <el-table-column label="型号" prop="model"/>
-        <el-table-column label="尺寸">
-          <template slot-scope="s">
-            <el-tag v-for="item in s.row.sizes" :key="item">{{ item }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="颜色">
-          <template slot-scope="s">
-            <el-tag v-for="item in s.row.colors" :key="item">{{ item }}</el-tag>
-          </template>
-        </el-table-column>
+        <el-table-column label="尺寸" prop="size" />
+        <el-table-column label="颜色" prop="color" />
+        <el-table-column label="数量" prop="amount" />
         <el-table-column label="操作">
           <template slot-scope="s">
             <el-button type="primary" @click="form=s.row;visible.edit=true">修改</el-button>
@@ -36,10 +29,10 @@
       </el-pagination>
     </el-footer>
     <el-dialog :visible.sync="visible.add" title="添加">
-      <goods-form :data="form" @success="visible.add=false;page()"/>
+      <inventory-form :data="form" @success="visible.add=false;page()"/>
     </el-dialog>
     <el-dialog :visible.sync="visible.edit" title="修改">
-      <goods-form :data="form" @success="visible.edit=false;page()"/>
+      <inventory-form :data="form" @success="visible.edit=false;page()"/>
     </el-dialog>
   </el-container>
 
@@ -48,14 +41,16 @@
 <script>
 import GoodsForm from "./form/goods-form";
 import {baseDel, basePage} from "../../../assets/js/api/baseApi";
+import InventoryForm from "./form/inventory-form";
+
 
 
 export default {
-  name: "goods-management",
-  components: {GoodsForm},
+  name: "inventory-management",
+  components: {InventoryForm, GoodsForm},
   data() {
     return {
-      prefix: "Goods",
+      prefix: "Inventory",
       visible: {
         add: false,
         edit: false,
@@ -75,11 +70,11 @@ export default {
     }
   },
   methods: {
-    del(id) {
-      if (!confirm("确认删除?")) {
+    del(id){
+      if (!confirm("确认删除?")){
         return
       }
-      baseDel(this.prefix, id, (res) => this.$message(res.message)).then(() => this.page())
+      baseDel(this.prefix,id,(res) => this.$message(res.message)).then(()=>this.page())
     },
     page() {
       basePage(this.prefix, this.param.page, (res) => this.$message(res.message)).then(res => {

@@ -24,7 +24,7 @@
     </el-main>
     <el-footer>
       <el-pagination
-        :current-page="param.page.page"
+        :current-page.sync="param.page.page"
         :page-size.sync="param.page.size"
         :total="data.total"
         layout="prev, pager, next, jumper"
