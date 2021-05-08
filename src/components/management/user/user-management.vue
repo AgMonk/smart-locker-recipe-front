@@ -1,17 +1,22 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-<!--    <el-header></el-header>-->
+    <!--    <el-header></el-header>-->
     <el-main style="padding: 5px">
       <el-table :data="data.records">
-        <el-table-column label="ID" prop="id" width="50" />
-        <el-table-column label="姓名" prop="name" />
-        <el-table-column label="用户名" prop="username" />
-        <el-table-column label="电话" prop="phone" />
-        <el-table-column label="注册时间" prop="createdAt.timeString" />
-        <el-table-column label="可用状态" prop="available" >
+        <el-table-column label="ID" prop="id" width="50"/>
+        <el-table-column label="姓名" prop="name"/>
+        <el-table-column label="用户名" prop="username"/>
+        <el-table-column label="电话" prop="phone"/>
+        <el-table-column label="注册时间" prop="createdAt.timeString"/>
+        <el-table-column label="可用状态" prop="available">
           <template slot-scope="s">
-            {{s.row.available?"正常":"停用"}}
+            {{ s.row.available ? "正常" : "停用" }}
+          </template>
+        </el-table-column>
+        <el-table-column label="角色">
+          <template slot-scope="s">
+            <el-button type="primary" @click="visible.userRole=true;userRoleId=s.row.id">角色</el-button>
           </template>
         </el-table-column>
 
@@ -26,8 +31,8 @@
         @current-change="page">
       </el-pagination>
     </el-footer>
-    <el-dialog :visible.sync="visible.userRole">
-      <user-role-management :id="1" />
+    <el-dialog :visible.sync="visible.userRole" width="70%">
+      <user-role-management :id="userRoleId"/>
     </el-dialog>
   </el-container>
 
@@ -43,27 +48,28 @@ export default {
   components: {UserRoleManagement},
   data() {
     return {
-      visible:{
-        userRole:true
+      userRoleId: undefined,
+      visible: {
+        userRole: false
       },
-      data:{
-        records:[],
-        total:50,
+      data: {
+        records: [],
+        total: 50,
       },
-      param:{
-        page:{
-          page:1,
-          size:10,
+      param: {
+        page: {
+          page: 1,
+          size: 10,
 
         }
       }
     }
   },
   methods: {
-    page(){
+    page() {
       let p = copyObj(this.param.page)
       p.success = (res) => this.$message(res.message)
-      page(p).then(res=>{
+      page(p).then(res => {
         let d = res.data;
         this.data.records = d.records;
         this.data.total = d.total;

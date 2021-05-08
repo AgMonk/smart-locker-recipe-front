@@ -6,7 +6,6 @@ export const hasRoles = (userId,success) => {
   return request({
     url: prefix + "/hasRoles",
     params:{userId},
-    namespace: "myRoles",
     success
   })
 }

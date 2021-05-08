@@ -62,22 +62,37 @@ export default {
     remarkFilterMethod(value, row, column){
       return row.remark.includes(value);
     },
+    findAll(){
+      let permId = this.role.permissions.map(p=>p.id)
+
+      baseFindAll("/permission").then(res => {
+        this.permissions = res.data;
+
+        setTimeout(()=>{
+          this.permissions.forEach(perm=>{
+            if (permId.includes(perm.id)){
+              this.$refs.multipleTable.toggleRowSelection(perm)
+            }
+          },1000)
+        })
+      })
+    }
   },
   mounted() {
     this.role = copyObj(this.data)
     this.role.permissions = this.role.permissions ? this.role.permissions : [];
 
+    this.findAll();
 
-    baseFindAll("/permission").then(res => {
-      this.permissions = res.data;
 
-    })
   },
   watch: {
     "data": {
       handler: function (e) {
         this.role = copyObj(e)
         this.role.permissions = this.role.permissions ? this.role.permissions : [];
+
+        this.findAll();
       }
     }
   },

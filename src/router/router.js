@@ -7,6 +7,7 @@ let router = [
   {path: '/', redirect: "/home"},
   {path: '/home', name: 'home', component: home,label:'主页'},
   {path: '/management', name: 'management', component: management,label:'管理'},
+  // {path: '/test', name: 'test', component: test,label:'测试'},
   {path: '/me', name: 'me', component: me,label:'我的'},
 ]
 
