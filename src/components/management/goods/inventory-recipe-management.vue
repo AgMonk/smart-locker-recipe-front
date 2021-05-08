@@ -1,23 +1,25 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
-      <el-button type="primary" @click="visible.add=true;form={}">添加</el-button>
-    </el-header>
+<!--    <el-header>-->
+<!--      <el-button type="primary" @click="visible.add=true;form={}">添加</el-button>-->
+<!--    </el-header>-->
     <el-main>
       <el-table :data="data.records">
-        <el-table-column label="UUID" prop="uuid"/>
-        <el-table-column label="型号" prop="model"/>
-        <el-table-column label="尺寸" prop="size" width="100px" />
-        <el-table-column label="颜色" prop="color"  width="70px" />
+<!--        <el-table-column label="类型" prop="type"/>-->
+        <el-table-column label="时间" prop="timestamp.timeString" width="150px"/>
+        <el-table-column label="操作员" prop="operatorId" />
+        <el-table-column label="类型" prop="type" width="70px" />
+        <el-table-column label="工单UUID" prop="orderUuid" />
+        <el-table-column label="库存UUID" prop="inventoryUuid" />
         <el-table-column label="数量" prop="amount" width="70px" />
-        <el-table-column label="操作">
-          <template slot-scope="s">
-            <el-button type="primary" @click="inventoryUuid=s.row.uuid;visible.recipe=true">添加单据</el-button>
-            <el-button type="primary" @click="form=s.row;visible.edit=true">修改</el-button>
-            <el-button type="danger" @click="del(s.row.uuid)">删除</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column label="事由" prop="reason" />
+<!--        <el-table-column label="操作">-->
+<!--          <template slot-scope="s">-->
+<!--            <el-button type="primary" @click="form=s.row;visible.edit=true">修改</el-button>-->
+<!--            <el-button type="danger" @click="del(s.row.uuid)">删除</el-button>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
       </el-table>
     </el-main>
     <el-footer>
@@ -30,15 +32,11 @@
       </el-pagination>
     </el-footer>
     <el-dialog :visible.sync="visible.add" title="添加">
-      <inventory-form @success="visible.add=false;page()"/>
+      <inventory-form :data="form" @success="visible.add=false;page()"/>
     </el-dialog>
     <el-dialog :visible.sync="visible.edit" title="修改">
       <inventory-form :data="form" @success="visible.edit=false;page()"/>
     </el-dialog>
-     <el-dialog :visible.sync="visible.recipe" title="单据">
-      <inventory-recipe-form :data="inventoryUuid" @success="visible.recipe=false;page()"/>
-    </el-dialog>
-
   </el-container>
 
 </template>
@@ -47,21 +45,18 @@
 import GoodsForm from "./form/goods-form";
 import {baseDel, basePage} from "../../../assets/js/api/baseApi";
 import InventoryForm from "./form/inventory-form";
-import InventoryRecipeForm from "./form/inventory-recipe-form"
 
 
 
 export default {
-  name: "inventory-management",
-  components: {InventoryForm, GoodsForm,InventoryRecipeForm},
+  name: "inventory-recipe-management",
+  components: {InventoryForm, GoodsForm},
   data() {
     return {
-      prefix: "Inventory",
-      inventoryUuid:undefined,
+      prefix: "InventoryRecipe",
       visible: {
         add: false,
         edit: false,
-        recipe: false,
       },
       form: {},
       data: {

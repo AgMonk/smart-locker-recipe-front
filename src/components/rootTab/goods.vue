@@ -11,7 +11,7 @@
           <inventory-management v-if="tabs==='库存'"/>
         </el-tab-pane>
         <el-tab-pane label="单据" name="单据">
-          <!--          <perm-management v-if="tabs==='单据'"  />-->
+          <inventory-recipe-management v-if="tabs==='单据'"/>
         </el-tab-pane>
       </el-tabs>
     </el-main>
@@ -23,10 +23,11 @@
 <script>
 import GoodsManagement from "../management/goods/goods-management";
 import InventoryManagement from "../management/goods/inventory-management";
+import InventoryRecipeManagement from "../management/goods/inventory-recipe-management";
 
 export default {
   name: "goods",
-  components: {InventoryManagement, GoodsManagement},
+  components: {InventoryRecipeManagement, InventoryManagement, GoodsManagement},
   data() {
     return {
       tabs: "商品",
