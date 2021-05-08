@@ -22,7 +22,7 @@ export default {
   components: {ArrayManager},
   data() {
     return {
-      prefix: "InventoryRecipe",
+      prefix: "/InventoryRecipe",
       myData: {
         inventoryUuid:undefined,
         reason:undefined,

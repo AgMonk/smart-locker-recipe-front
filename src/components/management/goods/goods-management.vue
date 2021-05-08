@@ -55,7 +55,7 @@ export default {
   components: {GoodsForm},
   data() {
     return {
-      prefix: "Goods",
+      prefix: "/Goods",
       visible: {
         add: false,
         edit: false,

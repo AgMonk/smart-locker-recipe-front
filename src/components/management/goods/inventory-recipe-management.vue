@@ -53,7 +53,7 @@ export default {
   components: {InventoryForm, GoodsForm},
   data() {
     return {
-      prefix: "InventoryRecipe",
+      prefix: "/InventoryRecipe",
       visible: {
         add: false,
         edit: false,

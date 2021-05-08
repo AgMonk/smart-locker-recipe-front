@@ -56,7 +56,7 @@ export default {
   components: {InventoryForm, GoodsForm,InventoryRecipeForm},
   data() {
     return {
-      prefix: "Inventory",
+      prefix: "/Inventory",
       inventoryUuid:undefined,
       visible: {
         add: false,

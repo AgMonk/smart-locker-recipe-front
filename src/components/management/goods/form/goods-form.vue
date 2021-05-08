@@ -25,7 +25,7 @@ export default {
   components: {ArrayManager},
   data() {
     return {
-      prefix: "Goods",
+      prefix: "/Goods",
       myData: {}
     }
   },
