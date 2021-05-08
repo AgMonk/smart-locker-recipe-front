@@ -9,7 +9,7 @@
             <el-form-item label="用户名">{{ userInfo.username }}</el-form-item>
             <el-form-item label="姓名">{{ userInfo.name }}</el-form-item>
             <el-form-item label="电话">{{ userInfo.phone }}</el-form-item>
-            <el-form-item label="注册时间">{{ userInfo.createdAt.timeString }}</el-form-item>
+            <el-form-item label="注册时间" v-if="userInfo.createdAt">{{ userInfo.createdAt.timeString }}</el-form-item>
           </el-form>
         </el-col>
       </el-row>

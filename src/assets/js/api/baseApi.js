@@ -30,3 +30,17 @@ export const baseSave = (prefix,data,success) => {
     success
   })
 }
+export const baseAdd = (prefix,data,success) => {
+  return request({
+    url: prefix + "/add",
+    data,
+    success
+  })
+}
+export const baseUpdate = (prefix,data,success) => {
+  return request({
+    url: prefix + "/update",
+    data,
+    success
+  })
+}
