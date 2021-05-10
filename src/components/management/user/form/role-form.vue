@@ -45,11 +45,6 @@ export default {
       },
       permissions: [],
       remarkFilters:[
-        {text:"所有",value:"所有"},
-        {text:"用户",value:"用户"},
-        {text:"角色",value:"角色"},
-        {text:"权限",value:"权限"},
-        {text:"孵化器",value:"孵化器"},
       ],
     }
   },
@@ -84,7 +79,9 @@ export default {
 
     this.findAll();
 
-
+    this.remarkFilters = [];
+    let a = ["所有","用户","角色","权限","商品","库存","单据","订单"];
+    a.forEach(v=>this.remarkFilters.push({text: v, value: v}));
   },
   watch: {
     "data": {

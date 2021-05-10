@@ -12,6 +12,9 @@
     <el-form-item label="电话">
       <el-input v-model="param.phone" clearable />
     </el-form-item>
+<el-form-item label="区域">
+      <el-input v-model="param.area" clearable />
+    </el-form-item>
 
 
     <el-form-item label-width="0px">
@@ -34,6 +37,7 @@ export default {
         password: "",
         name: "",
         phone: "",
+        area: "",
       }
     }
   },

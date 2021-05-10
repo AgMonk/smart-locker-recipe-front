@@ -4,9 +4,13 @@
     <el-form-item label="备注">
       <el-input v-model="perm.remark"/>
     </el-form-item>
+    <el-form-item label="解析">
+      <el-input v-model="permString" @change="parsePermString"/>
+    </el-form-item>
     <el-form-item label="命名空间">
       <el-input v-model="perm.namespace"/>
     </el-form-item>
+
     <el-form-item label="操作">
       <el-input v-model="perm.action"/>
     </el-form-item>
@@ -28,6 +32,7 @@ export default {
   name: "perm-form",
   data() {
     return {
+      permString:undefined,
       perm: {
         id: undefined,
         remark: undefined,
@@ -38,6 +43,14 @@ export default {
     }
   },
   methods: {
+    parsePermString(){
+      let s = this.permString.split(":");
+      this.perm.namespace = s[0]
+      this.perm.action = s[1]
+      this.perm.target = s[2]
+      this.permString=undefined;
+      this.$forceUpdate()
+    },
     save(){
       baseSave("/permission",this.perm,(res) => this.$message(res.message))
         .then(res=>{

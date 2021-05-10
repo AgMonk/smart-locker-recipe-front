@@ -36,6 +36,8 @@ export default {
       }).then(res => {
         this.$emit("success", res.code === 2000)
         clearCache()
+      }).catch(e=>{
+        this.$message(e.message)
       })
     }
   },

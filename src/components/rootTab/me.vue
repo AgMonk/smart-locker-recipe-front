@@ -4,7 +4,7 @@
 <!--    <el-header></el-header>-->
     <el-main>
       <el-row>
-        <el-col :offset="6" :span="12">
+        <el-col :xs="20" :md="{span:12,offset:6}">
           <!--      已登陆-->
           <el-container v-if="logged" direction="vertical">
             <el-main>

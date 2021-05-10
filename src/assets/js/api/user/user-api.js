@@ -41,9 +41,9 @@ export const userInfo = ({success}) => {
   })
 }
 
-export const editUserInfo =({phone,name,success})=>{
+export const editUserInfo =({phone,name,area,success})=>{
   return request({
-    data:{phone,name},
+    data:{phone,name,area},
     url: prefix + "/editUserInfo",
     namespace: "userInfo",
     success
