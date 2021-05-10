@@ -82,7 +82,7 @@ export default {
       })
     },
     page() {
-      basePage(this.prefix, this.param.page, (res) => this.$message(res.message)).then(res => {
+      basePage(this.prefix, this.param.page, undefined).then(res => {
         this.data = res.data;
       }).catch(e=>{
         this.$message(e.message)

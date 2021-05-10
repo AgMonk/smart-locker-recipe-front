@@ -31,24 +31,26 @@
         <el-table-column label="时间" prop="timestamp.timeString"/>
         <el-table-column label="状态" prop="status">
           <template slot-scope="s">
-            <el-tag  effect="dark" :type="statusTagType(s.row.status)"  >{{s.row.status}}</el-tag>
+            <el-tag effect="dark" :type="statusTagType(s.row.status)">{{ s.row.status }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="业主姓名" prop="ownerName"/>
-<!--        <el-table-column label="报装员ID" prop="submitter"/>-->
-<!--        <el-table-column label="安装员ID" prop="installer"/>-->
+        <!--        <el-table-column label="报装员ID" prop="submitter"/>-->
+        <!--        <el-table-column label="安装员ID" prop="installer"/>-->
         <el-table-column label="操作">
           <template slot-scope="s">
-            <my-button text="提交" v-if="'待提交'===s.row.status"  @click="submit(s.row.uuid)"/>
-            <my-button text="修改"  v-if="['待提交','已提交'].includes(s.row.status)" @click="form=s.row;visible.edit=true" />
-            <el-button  v-if="'已提交'===s.row.status"
-                       @click="findInstallers();visible.assign=true;param.assign.uuid=s.row.uuid"
-            >派单
-            </el-button>
-            <my-button text="提审" v-if="'已派单'===s.row.status" @click="complete(s.row.uuid)" />
-            <my-button text="修改" v-if="'已派单'===s.row.status" @click="form=s.row;visible.edit=true" />
-            <my-button text="撤单" v-if="'已派单'===s.row.status" @click="visible.abandon=true;param.abandon.uuid=s.row.uuid" />
-            <my-button text="确认" v-if="'待审核'===s.row.status" @click="confirm(s.row.uuid)" />
+            <my-button text="提交" v-if="'待提交'===s.row.status" @click="submit(s.row.uuid)"/>
+            <my-button text="修改" v-if="['待提交','已提交'].includes(s.row.status)" @click="form=s.row;visible.edit=true"/>
+            <my-button text="派单" v-if="'已提交'===s.row.status"
+                       @click="findInstallers();visible.assign=true;param.assign.uuid=s.row.uuid"/>
+            <my-button text="提审" v-if="'已派单'===s.row.status" @click="complete(s.row.uuid)"/>
+            <my-button text="修改" v-if="'已派单'===s.row.status" @click="form=s.row;visible.edit=true"/>
+            <my-button text="撤单" v-if="'已派单'===s.row.status"
+                       @click="visible.abandon=true;param.abandon.uuid=s.row.uuid"/>
+            <my-button text="照片"
+                       v-if="['已派单','待审核','已完成'].includes(s.row.status)"
+                       @click="viewPic(s.row)"/>
+            <my-button text="确认" v-if="'待审核'===s.row.status" @click="confirm(s.row.uuid)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -88,6 +90,19 @@
       </el-form>
     </el-dialog>
 
+    <el-dialog :visible.sync="visible.picture" title="照片" :width="dialogWidth()">
+      <el-upload
+        v-if="picture.upload"
+        :file-list="picture.fileList"
+        :data="param.upload"
+        action="/api/InstallationOrder/upload"
+        class="upload-demo"
+        drag
+        list-type="picture"
+        multiple>
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
+    </el-dialog>
 
   </el-container>
 
@@ -99,6 +114,7 @@ import {baseDel, baseFindAll, basePage} from "../../../assets/js/api/baseApi";
 import {abandon, assignOrder, complete, confirmOrder, submit} from "../../../assets/js/api/order/order";
 import {getClientWidth} from "../../../assets/js/utils";
 import MyButton from "../my/my-button";
+import {request} from "../../../assets/js/requestUtils";
 
 
 export default {
@@ -113,13 +129,22 @@ export default {
         assign: false,
         abandon: false,
         editInventoryMap: false,
+        picture: false,
       },
       form: {},
       data: {
         records: [],
         total: 50,
       },
+      picture: {
+        fileList: [],
+        upload: true,
+        img: [],
+      },
       param: {
+        upload: {
+          uuid: undefined,
+        },
         page: {
           page: 1,
           size: 10,
@@ -143,17 +168,23 @@ export default {
     }
   },
   methods: {
-    dialogWidth(){
-      return getClientWidth()<=1?"90%":"50%"
+    dialogWidth() {
+      return getClientWidth() <= 1 ? "90%" : "50%"
     },
-    statusTagType(status){
-      switch (status){
-        case '待提交':return '';
-        case '已提交':return '';
-        case '已派单':return 'warning';
-        case '待审核':return 'info';
-        case '已完成':return 'success';
-        case '已撤单':return 'danger';
+    statusTagType(status) {
+      switch (status) {
+        case '待提交':
+          return '';
+        case '已提交':
+          return '';
+        case '已派单':
+          return 'warning';
+        case '待审核':
+          return 'info';
+        case '已完成':
+          return 'success';
+        case '已撤单':
+          return 'danger';
       }
     },
     findAllInventory() {
@@ -168,7 +199,7 @@ export default {
       abandon(this.param.abandon, (res) => this.$message(res.message)).then(() => {
         this.page();
         this.visible.abandon = false;
-      }).catch(e=>{
+      }).catch(e => {
         this.$message(e.message)
       })
     },
@@ -180,7 +211,7 @@ export default {
       assignOrder(this.param.assign, (res) => this.$message(res.message)).then(() => {
         this.page();
         this.visible.assign = false;
-      }).catch(e=>{
+      }).catch(e => {
         this.$message(e.message)
       })
     },
@@ -188,7 +219,7 @@ export default {
       if (!confirm("确认提交？")) {
         return
       }
-      submit(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+      submit(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e => {
         this.$message(e.message)
       })
     },
@@ -196,7 +227,7 @@ export default {
       if (!confirm("确认提交审核？")) {
         return
       }
-      complete(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+      complete(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e => {
         this.$message(e.message)
       })
     },
@@ -204,7 +235,7 @@ export default {
       if (!confirm("确认订单完成？")) {
         return
       }
-      confirmOrder(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+      confirmOrder(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e => {
         this.$message(e.message)
       })
     },
@@ -212,14 +243,14 @@ export default {
       if (!confirm("确认删除?")) {
         return
       }
-      baseDel(this.prefix, id, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+      baseDel(this.prefix, id, (res) => this.$message(res.message)).then(() => this.page()).catch(e => {
         this.$message(e.message)
       })
     },
     page() {
-      basePage(this.prefix, this.param.page,undefined).then(res => {
+      basePage(this.prefix, this.param.page, undefined).then(res => {
         this.data = res.data;
-      }).catch(e=>{
+      }).catch(e => {
         this.$message(e.message)
       })
     },
@@ -233,10 +264,25 @@ export default {
       }
       basePage("/user/a", param, (res) => this.$message(res.message)).then(res => {
         this.installers = res.data.records;
-      }).catch(e=>{
+      }).catch(e => {
         this.$message(e.message)
       })
-    }
+    },
+    viewPic(row) {
+      this.visible.picture = true;
+      this.param.upload.uuid = row.uuid;
+      this.picture.upload = row.status !== '已完成';
+      this.listImg(row.uuid)
+    },
+    listImg(uuid) {
+      request({
+        url: this.prefix + "/listImg",
+        params: {uuid}
+      }).then(res => {
+        this.picture.img = res.data;
+        console.log(res.data);
+      })
+    },
   },
   mounted() {
     this.page()

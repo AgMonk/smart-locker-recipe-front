@@ -30,7 +30,19 @@ export default {
   },
   mounted() {
   },
-  props: ["type", "text", "size"],
+  props: {
+    type:{
+      type:String,
+    },
+    size:{
+      type:String,
+    },
+    text:{
+      type:String,
+      required:true
+    },
+
+  },
 }
 
 </script>
