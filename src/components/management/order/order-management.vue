@@ -12,6 +12,8 @@
               <el-form-item label="业主姓名">{{ s.row.ownerName }}</el-form-item>
               <el-form-item label="业主电话">{{ s.row.ownerPhone }}</el-form-item>
               <el-form-item label="业主地址">{{ s.row.ownerAddress }}</el-form-item>
+              <el-form-item label="报装员ID">{{ s.row.submitter }}</el-form-item>
+              <el-form-item label="安装员ID">{{ s.row.installer }}</el-form-item>
               <el-form-item label="备注" v-if="s.row.remark">{{ s.row.remark }}</el-form-item>
               <el-form-item label="撤单备注" v-if="s.row.abandonedRemark">{{ s.row.abandonedRemark }}</el-form-item>
               <el-form-item label="商品">
@@ -27,37 +29,26 @@
           </template>
         </el-table-column>
         <el-table-column label="时间" prop="timestamp.timeString"/>
-        <el-table-column label="状态" prop="status"/>
-        <el-table-column label="报装员ID" prop="submitter"/>
-        <el-table-column label="安装员ID" prop="installer"/>
+        <el-table-column label="状态" prop="status">
+          <template slot-scope="s">
+            <el-tag  effect="dark" :type="statusTagType(s.row.status)"  >{{s.row.status}}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="业主姓名" prop="ownerName"/>
+<!--        <el-table-column label="报装员ID" prop="submitter"/>-->
+<!--        <el-table-column label="安装员ID" prop="installer"/>-->
         <el-table-column label="操作">
           <template slot-scope="s">
-            <el-button type="primary"
-                       v-if="'待提交'===s.row.status"
-                       @click="submit(s.row.uuid)"
-            >提交</el-button>
-            <el-button type="primary"
-                       v-if="['待提交','已提交'].includes(s.row.status)"
-                       @click="form=s.row;visible.edit=true"
-            >修改
-            </el-button>
-            <el-button type="primary" v-if="'已提交'===s.row.status"
+            <my-button text="提交" v-if="'待提交'===s.row.status"  @click="submit(s.row.uuid)"/>
+            <my-button text="修改"  v-if="['待提交','已提交'].includes(s.row.status)" @click="form=s.row;visible.edit=true" />
+            <el-button  v-if="'已提交'===s.row.status"
                        @click="findInstallers();visible.assign=true;param.assign.uuid=s.row.uuid"
             >派单
             </el-button>
-            <el-button type="primary"
-                       v-if="'已派单'===s.row.status"
-                       @click="complete(s.row.uuid)"
-            >提审</el-button>
-            <el-button type="primary"
-                       v-if="'已派单'===s.row.status"
-                       @click="form=s.row;visible.edit=true"
-            >修改</el-button>
-            <el-button type="primary" v-if="'已派单'===s.row.status"
-                       @click="visible.abandon=true;param.abandon.uuid=s.row.uuid"
-            >撤单</el-button>
-            <el-button type="primary" v-if="'待审核'===s.row.status" @click="confirm(s.row.uuid)">确认</el-button>
+            <my-button text="提审" v-if="'已派单'===s.row.status" @click="complete(s.row.uuid)" />
+            <my-button text="修改" v-if="'已派单'===s.row.status" @click="form=s.row;visible.edit=true" />
+            <my-button text="撤单" v-if="'已派单'===s.row.status" @click="visible.abandon=true;param.abandon.uuid=s.row.uuid" />
+            <my-button text="确认" v-if="'待审核'===s.row.status" @click="confirm(s.row.uuid)" />
           </template>
         </el-table-column>
       </el-table>
@@ -71,21 +62,22 @@
         @current-change="page">
       </el-pagination>
     </el-footer>
-    <el-dialog :visible.sync="visible.add" title="添加">
+    <el-dialog :visible.sync="visible.add" title="添加" :width="dialogWidth()">
       <order-form v-if="visible.add" :data="form" @success="visible.add=false;page()"/>
     </el-dialog>
-    <el-dialog :visible.sync="visible.edit" title="修改">
+    <el-dialog :visible.sync="visible.edit" title="修改" :width="dialogWidth()">
       <order-form v-if="visible.edit" :data="form" @success="visible.edit=false;page()"/>
     </el-dialog>
 
-    <el-dialog :visible.sync="visible.assign" title="派单">
+    <el-dialog :visible.sync="visible.assign" title="派单" :width="dialogWidth()">
       <el-table :data="installers" @row-click="assign">
         <el-table-column label="ID" prop="id"/>
         <el-table-column label="姓名" prop="name"/>
+        <el-table-column label="区域" prop="area"/>
       </el-table>
     </el-dialog>
 
-    <el-dialog :visible.sync="visible.abandon" title="撤单">
+    <el-dialog :visible.sync="visible.abandon" title="撤单" :width="dialogWidth()">
       <el-form :model="param.abandon">
         <el-form-item label-width="80px" label="原因">
           <el-input v-model="param.abandon.reason"/>
@@ -105,11 +97,13 @@
 import OrderForm from "./form/order-form";
 import {baseDel, baseFindAll, basePage} from "../../../assets/js/api/baseApi";
 import {abandon, assignOrder, complete, confirmOrder, submit} from "../../../assets/js/api/order/order";
+import {getClientWidth} from "../../../assets/js/utils";
+import MyButton from "../my/my-button";
 
 
 export default {
   name: "order-management",
-  components: {OrderForm},
+  components: {MyButton, OrderForm},
   data() {
     return {
       prefix: "/InstallationOrder",
@@ -149,6 +143,19 @@ export default {
     }
   },
   methods: {
+    dialogWidth(){
+      return getClientWidth()<=1?"90%":"50%"
+    },
+    statusTagType(status){
+      switch (status){
+        case '待提交':return '';
+        case '已提交':return '';
+        case '已派单':return 'warning';
+        case '待审核':return 'info';
+        case '已完成':return 'success';
+        case '已撤单':return 'danger';
+      }
+    },
     findAllInventory() {
       baseFindAll("/Inventory").then(res => {
         this.inventory = res.data;
@@ -161,6 +168,8 @@ export default {
       abandon(this.param.abandon, (res) => this.$message(res.message)).then(() => {
         this.page();
         this.visible.abandon = false;
+      }).catch(e=>{
+        this.$message(e.message)
       })
     },
     assign(row) {
@@ -171,35 +180,47 @@ export default {
       assignOrder(this.param.assign, (res) => this.$message(res.message)).then(() => {
         this.page();
         this.visible.assign = false;
+      }).catch(e=>{
+        this.$message(e.message)
       })
     },
     submit(uuid) {
       if (!confirm("确认提交？")) {
         return
       }
-      submit(uuid, (res) => this.$message(res.message)).then(() => this.page())
+      submit(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+        this.$message(e.message)
+      })
     },
     complete(uuid) {
       if (!confirm("确认提交审核？")) {
         return
       }
-      complete(uuid, (res) => this.$message(res.message)).then(() => this.page())
+      complete(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+        this.$message(e.message)
+      })
     },
     confirm(uuid) {
       if (!confirm("确认订单完成？")) {
         return
       }
-      confirmOrder(uuid, (res) => this.$message(res.message)).then(() => this.page())
+      confirmOrder(uuid, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+        this.$message(e.message)
+      })
     },
     del(id) {
       if (!confirm("确认删除?")) {
         return
       }
-      baseDel(this.prefix, id, (res) => this.$message(res.message)).then(() => this.page())
+      baseDel(this.prefix, id, (res) => this.$message(res.message)).then(() => this.page()).catch(e=>{
+        this.$message(e.message)
+      })
     },
     page() {
-      basePage(this.prefix, this.param.page, (res) => this.$message(res.message)).then(res => {
+      basePage(this.prefix, this.param.page,undefined).then(res => {
         this.data = res.data;
+      }).catch(e=>{
+        this.$message(e.message)
       })
     },
     findInstallers() {
@@ -212,6 +233,8 @@ export default {
       }
       basePage("/user/a", param, (res) => this.$message(res.message)).then(res => {
         this.installers = res.data.records;
+      }).catch(e=>{
+        this.$message(e.message)
       })
     }
   },

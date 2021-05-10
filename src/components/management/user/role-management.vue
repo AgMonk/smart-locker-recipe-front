@@ -4,7 +4,7 @@
     <el-header>
       <el-button type="primary" @click="visible.add=true;roleFormData={}">添加</el-button>
     </el-header>
-    <el-main style="padding: 5px">
+    <el-main >
       <el-table :data="data.records">
         <el-table-column type="expand" label="权限">
           <template slot-scope="scope">
