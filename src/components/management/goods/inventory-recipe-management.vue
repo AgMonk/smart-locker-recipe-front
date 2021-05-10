@@ -77,11 +77,15 @@ export default {
       if (!confirm("确认删除?")){
         return
       }
-      baseDel(this.prefix,id,(res) => this.$message(res.message)).then(()=>this.page())
+      baseDel(this.prefix,id,(res) => this.$message(res.message)).then(()=>this.page()).catch(e=>{
+        this.$message(e.message)
+      })
     },
     page() {
       basePage(this.prefix, this.param.page, (res) => this.$message(res.message)).then(res => {
         this.data = res.data;
+      }).catch(e=>{
+        this.$message(e.message)
       })
     },
   },

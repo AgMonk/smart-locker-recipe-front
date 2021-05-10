@@ -7,7 +7,12 @@
              text-color="#fff"
              @select="select($event)"
     >
-      <el-menu-item v-for="(item,i) in router" v-if="item.label" :key="i" :index="router[i].path" style="width: 60px">
+      <el-menu-item
+        v-for="(item,i) in router"
+        v-if="checkRole(item)"
+        :key="i"
+        :index="router[i].path"
+        style="width: 60px">
         <span class="tab">{{ item.label }}</span>
       </el-menu-item>
     </el-menu>
@@ -22,6 +27,21 @@ import {hasRoles} from "../assets/js/api/user/role-api";
 export default {
   name: "navi",
   methods: {
+    checkRole(router){
+      if (!router.label) {
+        return false;
+      }
+      if (!router.requiredRoles) {
+        return true;
+      }
+      let r = this.roles.map(role=>role.name)
+      for (let i = 0; i < r.length; i++) {
+        if (router.requiredRoles.includes(r[i])){
+          return true;
+        }
+      }
+      return false
+    },
     clear() {
       if (confirm("清除缓存?")) {
         localStorage.clear();
@@ -35,22 +55,24 @@ export default {
       }
     },
     getStatus(route) {
-      if (route.path !== '/me') {
+      // if (route.path !== '/me') {
         getStatus()
           .then((res)=>{
             hasRoles().then(res=>{
-              console.log(res)
+              this.roles = res.data
+              this.$forceUpdate()
             })
           })
           .catch(() => {
             this.select('/me')
         })
-      }
+      // }
     }
   },
   data() {
     return {
       router: router,
+      roles:[],
     }
   },
   mounted() {

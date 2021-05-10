@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
     <el-main>
       <el-row>
-        <el-col :offset="4" :span="16">
+        <el-col :xs="{span:20,offset:2}" :lg="{span:12,offset:6}">
           <el-form :model="userInfo">
             <el-form-item label="用户ID">{{ userInfo.id }}</el-form-item>
             <el-form-item label="用户名">{{ userInfo.username }}</el-form-item>
@@ -51,9 +51,7 @@ export default {
       window.location.reload();
     },
     info() {
-      userInfo({
-        success: (res) => this.$message(res.message),
-      }).then(res => {
+      userInfo({}).then(res => {
         if (res.code === 2000) {
           this.userInfo = res.data;
         }

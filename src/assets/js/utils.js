@@ -64,3 +64,20 @@ export {
   getTypeOf,
   format,
 }
+
+export const getClientWidth = ()=>{
+  let w = document.body.clientWidth;
+  if (w < 768) {
+    return 0;
+  }
+  if (w < 992) {
+    return 1;
+  }
+  if (w < 1200) {
+    return 2;
+  }
+  if (w < 1920) {
+    return 3;
+  }
+  return 4
+}

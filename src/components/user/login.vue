@@ -22,8 +22,8 @@ export default {
   data() {
     return {
       param: {
-        username: "admin_lzbx",
-        password: "lzbx2837200",
+        username: undefined,
+        password: undefined,
       }
     }
   },
@@ -32,7 +32,6 @@ export default {
       login({
         username:this.param.username,
         password:this.param.password,
-        success:(res)=>this.$message(res.message)
       }).then(res => {
         this.$emit("success", res.code === 2000)
         clearCache()

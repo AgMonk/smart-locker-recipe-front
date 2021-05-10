@@ -4,7 +4,7 @@
     <el-header>
       <el-button type="primary" @click="visible.add=true;permFormData={}">添加</el-button>
     </el-header>
-    <el-main style="padding: 5px">
+    <el-main >
       <el-table :data="data.records">
         <el-table-column label="ID" prop="id" width="50" />
         <el-table-column label="备注" prop="remark" />

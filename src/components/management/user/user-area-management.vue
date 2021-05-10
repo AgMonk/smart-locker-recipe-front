@@ -5,7 +5,7 @@
     <el-header>
       <el-button type="primary" @click="visible.add=true;form={}">添加</el-button>
     </el-header>
-    <el-main style="padding: 5px">
+    <el-main >
       <el-table :data="data.records">
         <el-table-column label="UUID" prop="uuid" />
         <el-table-column label="地区" prop="name" />

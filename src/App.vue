@@ -1,3 +1,4 @@
+<!--suppress CssUnusedSymbol -->
 <template>
   <div id="app">
     <navi/>
@@ -21,5 +22,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   /*margin-top: 60px;*/
+}
+.el-main{
+  padding: 2px;
 }
 </style>
