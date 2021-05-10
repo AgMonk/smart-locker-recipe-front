@@ -1,16 +1,20 @@
 <template>
   <el-form label-width="80px" :model="myData">
     <el-form-item label="业主姓名">
-      <el-input v-model="myData.ownerName"/>
+      <el-input v-model="myData.ownerName" v-if="myData.status !== '已派单'" />
+      <span v-if="myData.status === '已派单'">{{myData.ownerName}}</span>
     </el-form-item>
     <el-form-item label="业主电话">
-      <el-input v-model="myData.ownerPhone"/>
+      <el-input v-model="myData.ownerPhone" v-if="myData.status !== '已派单'"/>
+      <span v-if="myData.status === '已派单'">{{myData.ownerPhone}}</span>
     </el-form-item>
     <el-form-item label="业主地址">
-      <el-input v-model="myData.ownerAddress"/>
+      <el-input v-model="myData.ownerAddress" v-if="myData.status !== '已派单'"/>
+      <span v-if="myData.status === '已派单'">{{myData.ownerAddress}}</span>
     </el-form-item>
     <el-form-item label="备注">
-      <el-input v-model="myData.remark"/>
+      <el-input v-model="myData.remark" v-if="myData.status !== '已派单'"/>
+      <span v-if="myData.status === '已派单'">{{myData.remark}}</span>
     </el-form-item>
     <el-form-item label="商品">
       <el-select v-model="addGoods" placeholder="添加商品" @change="add">
@@ -40,6 +44,7 @@
 import ArrayManager from "../../../utils/array-manager";
 import {copyObj} from "../../../../assets/js/utils";
 import {baseAdd, baseFindAll, baseUpdate} from "../../../../assets/js/api/baseApi";
+import {editInventoryMap} from "../../../../assets/js/api/order/order";
 
 export default {
   name: "order-form",
@@ -85,13 +90,21 @@ export default {
     submit() {
       if (this.myData.uuid) {
         //  修改
-        baseUpdate(this.prefix, this.myData, (res) => this.$message(res.message)).then(res => {
-          this.$emit("success");
-        })
+        if (this.myData.status === '已派单') {
+          editInventoryMap(this.myData,(res) => this.$message(res.message)).then(res => {
+            this.$emit("success");
+          })
+        }else {
+          baseUpdate(this.prefix, this.myData, (res) => this.$message(res.message)).then(res => {
+            this.$emit("success");
+          })
+        }
       } else {
         //  添加
         baseAdd(this.prefix, this.myData, (res) => this.$message(res.message)).then(res => {
           this.$emit("success");
+        }).catch(e => {
+          this.$message(e.data[0])
         })
       }
     },

@@ -21,7 +21,6 @@ export const complete = (uuid,success)=> {
 }
 
 export const confirmOrder = (uuid,success)=> {
-
   return request({
     url: prefix + "/confirm",
     params: {uuid},
@@ -29,17 +28,26 @@ export const confirmOrder = (uuid,success)=> {
   })
 }
 
-
-
-
-
 export const assignOrder = (param,success)=>{
-  if (!confirm("确认派单？")) {
-    return
-  }
-  return request({
+return request({
     url: prefix + "/assign",
     params: param,
+    success
+  })
+}
+
+export const abandon = (param,success)=>{
+  return request({
+    url: prefix + "/abandon",
+    params: param,
+    success
+  })
+}
+
+export const editInventoryMap = (data,success)=>{
+  return request({
+    url: prefix + "/editInventoryMap",
+    data,
     success
   })
 }
