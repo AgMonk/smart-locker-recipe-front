@@ -20,7 +20,7 @@
                    :label="item.model+' '+item.color+' '+item.size+' X '+item.amount"
         />
       </el-select>
-      <div v-for="(v,k) in myData.inventoryMap">
+      <div v-for="(v,k) in myData.inventoryMap" v-if="inventory.filter(i=>i.uuid===k)[0]">
         {{inventory.filter(i=>i.uuid===k)[0].model}}
         {{inventory.filter(i=>i.uuid===k)[0].color}}
         {{inventory.filter(i=>i.uuid===k)[0].size}}
