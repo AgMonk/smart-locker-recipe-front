@@ -1,4 +1,3 @@
-<!--suppress CssUnusedSymbol -->
 <template>
   <div id="app">
     <navi/>

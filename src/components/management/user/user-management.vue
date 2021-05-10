@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <!--    <el-header></el-header>-->
-    <el-main >
+    <el-main style=" padding: 2px;">
       <el-table :data="data.records">
         <el-table-column label="ID" prop="id" width="50"/>
         <el-table-column label="姓名" prop="name"/>

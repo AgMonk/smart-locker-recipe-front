@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
 <!--    <el-header></el-header>-->
-    <el-main>
+    <el-main style=" padding: 0;">
       <order-management />
     </el-main>
 <!--    <el-footer></el-footer>-->

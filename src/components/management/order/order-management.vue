@@ -4,7 +4,7 @@
     <el-header>
       <el-button type="primary" @click="visible.add=true;form=undefined">添加</el-button>
     </el-header>
-    <el-main>
+    <el-main style=" padding: 2px;">
       <el-table :data="data.records">
         <el-table-column type="expand" label="详情">
           <template slot-scope="s">
