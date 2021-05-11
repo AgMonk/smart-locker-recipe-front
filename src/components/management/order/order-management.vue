@@ -44,7 +44,7 @@
         <!--        <el-table-column label="安装员ID" prop="installer"/>-->
         <el-table-column label="操作">
           <template slot-scope="s">
-            <my-button text="提交" v-if="'待提交'===s.row.status" @click="submit(s.row.uuid)"/>
+            <my-button v-show="$isPermitted('InstallationOrder:submit:*')" text="提交" v-if="'待提交'===s.row.status" @click="submit(s.row.uuid)"/>
             <my-button v-show="$isPermitted('InstallationOrder:update:*')" text="修改"
                        v-if="['待提交','已提交'].includes(s.row.status)" @click="form=s.row;visible.edit=true"/>
             <my-button v-show="$isPermitted('InstallationOrder:assign:*')" text="派单" v-if="'已提交'===s.row.status"
@@ -278,10 +278,13 @@ export default {
   mounted() {
     this.findAllInventory()
 
-    hasRoles().then(res => {
-      this.$set(this.GLOBAL,"roles",res.data);
+    if (!this.GLOBAL.roles) {
+      hasRoles().then(res => {
+        this.GLOBAL.roles = res.data;
+      })
+    }else{
       this.page()
-    })
+    }
   },
   props: [],
 }

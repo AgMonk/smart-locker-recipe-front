@@ -62,16 +62,11 @@ export default {
       getStatus()
         .then((res) => {
           this.GLOBAL.logged = res.code === 2000;
-
-          hasRoles().then(res => {
-
-            // this.GLOBAL.roles = res.data;
-            this.$set(this.GLOBAL,"roles",res.data);
-
-            this.$forceUpdate()
-
-
-          })
+          if (!this.GLOBAL.roles) {
+            hasRoles().then(res => {
+              this.GLOBAL.roles = res.data;
+            })
+          }
         })
         .catch(() => {
           this.select('/me')

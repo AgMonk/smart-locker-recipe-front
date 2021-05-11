@@ -15,10 +15,8 @@ Vue.prototype.GLOBAL = {}
 
 /**
  * 判断用户是否有权限
- * @param namespace
- * @param action
- * @param target
  * @returns {boolean}
+ * @param perm
  */
 Vue.prototype.$isPermitted = (perm) => {
   let s = perm.split(":");

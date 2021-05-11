@@ -65,6 +65,8 @@ export default {
         success: (res) => this.$message(res.message)
       }).then(() => {
         this.logged = false
+        this.GLOBAL.logged=false;
+        this.GLOBAL.roles=undefined;
         clearCache();
       })
     },
