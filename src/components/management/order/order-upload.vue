@@ -25,6 +25,8 @@ export default {
   methods: {
     copy(obj) {
       this.myData = obj ? copyObj(obj) : [];
+      this.myData = {uuid:this.myData.uuid};
+
     },
   },
   mounted() {
