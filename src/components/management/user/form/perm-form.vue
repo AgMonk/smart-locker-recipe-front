@@ -45,11 +45,15 @@ export default {
   methods: {
     parsePermString(){
       let s = this.permString.split(":");
-      this.perm.namespace = s[0]
-      this.perm.action = s[1]
-      this.perm.target = s[2]
+      this.perm = {
+        id:this.perm.id,
+        remark:this.perm.remark,
+        namespace: s[0],
+        action: s[1],
+        target: s[2],
+      }
       this.permString=undefined;
-      this.$forceUpdate()
+      // this.$forceUpdate()
     },
     save(){
       baseSave("/permission",this.perm,(res) => this.$message(res.message))

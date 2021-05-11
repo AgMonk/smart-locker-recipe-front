@@ -65,9 +65,12 @@ export default {
 
           hasRoles().then(res => {
 
-            this.GLOBAL.roles = res.data;
+            // this.GLOBAL.roles = res.data;
+            this.$set(this.GLOBAL,"roles",res.data);
 
             this.$forceUpdate()
+
+
           })
         })
         .catch(() => {

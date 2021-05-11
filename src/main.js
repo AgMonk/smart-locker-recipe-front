@@ -13,6 +13,55 @@ import "./assets/js/utils"
 
 Vue.prototype.GLOBAL = {}
 
+/**
+ * 判断用户是否有权限
+ * @param namespace
+ * @param action
+ * @param target
+ * @returns {boolean}
+ */
+Vue.prototype.$isPermitted = (perm) => {
+  let s = perm.split(":");
+  let namespace = s[0];
+  let action = s[1];
+  let target = s[2];
+  let roles = Vue.prototype.GLOBAL.roles;
+  if (!roles) {
+    return false;
+  }
+  let permFormat = "{namespace}:{action}:{target}";
+  let permissions = roles.flatMap(i=>i.permissions).map(i=>permFormat.format(i));
+
+  if (permissions.includes(permFormat.format({namespace, action, target}))) {
+    return true;
+  }
+  if (permissions.includes(permFormat.format({namespace:"*", action, target}))) {
+    return true;
+  }
+  if (permissions.includes(permFormat.format({namespace:"*", action:"*", target}))) {
+    return true;
+  }
+  if (permissions.includes(permFormat.format({namespace:"*", action, target:"*"}))) {
+    return true;
+  }
+  if (permissions.includes(permFormat.format({namespace, action:"*", target}))) {
+    return true;
+  }
+  if (permissions.includes(permFormat.format({namespace, action, target:"*"}))) {
+    return true;
+  }
+  if (permissions.includes(permFormat.format({namespace, action:"*", target:"*"}))) {
+    return true;
+  }
+  if (permissions.includes(permFormat.format({namespace:"*", action:"*", target:"*"}))) {
+    return true;
+  }
+  return false;
+}
+
+
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

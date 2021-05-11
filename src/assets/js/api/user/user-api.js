@@ -25,10 +25,10 @@ export const logout = ({success}) => {
   })
 }
 
-export const reg = ({username, password, name,phone,success})=>{
+export const reg = ({username, password, name,phone,area,success})=>{
   return request({
     url: prefix + "/reg",
-    data:{username, password, name,phone},
+    data:{username, password, name,phone,area},
     success
   })
 }

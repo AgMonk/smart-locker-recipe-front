@@ -13,7 +13,11 @@ let format = function (template, ...data) {
   if (data.length === 1 && getTypeOf(d) === 'Object') {
     for (let key in d) {
       if (d.hasOwnProperty(key)) {
-        s = s.replaceAll("{" + key + "}", d[key]);
+        // s = s.replaceAll("{" + key + "}", d[key]);
+        let re = "{" + key + "}";
+        while (s.includes(re)){
+          s= s.replace(re, d[key])
+        }
       }
     }
     return s;

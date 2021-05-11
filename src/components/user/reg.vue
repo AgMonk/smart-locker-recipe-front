@@ -7,13 +7,13 @@
       <el-input v-model="param.password" clearable show-password type="password"/>
     </el-form-item>
     <el-form-item label="姓名">
-      <el-input v-model="param.name" clearable />
+      <el-input v-model="param.name" clearable/>
     </el-form-item>
     <el-form-item label="电话">
-      <el-input v-model="param.phone" clearable />
+      <el-input v-model="param.phone" clearable/>
     </el-form-item>
-<el-form-item label="区域">
-      <el-input v-model="param.area" clearable />
+    <el-form-item label="区域">
+      <el-input v-model="param.area" clearable/>
     </el-form-item>
 
 
@@ -32,7 +32,7 @@ export default {
   name: "reg",
   data() {
     return {
-      param:{
+      param: {
         username: "",
         password: "",
         name: "",
@@ -44,7 +44,9 @@ export default {
   methods: {
     reg() {
       this.param.success = (res) => this.$message(res.message)
-      reg(this.param).then(()=>this.$emit("success"))
+      reg(this.param).then(() => this.$emit("success")).catch(e=>{
+        this.$message(e.data[0])
+      })
     },
   },
   mounted() {

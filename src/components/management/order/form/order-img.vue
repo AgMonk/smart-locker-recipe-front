@@ -36,7 +36,6 @@ export default {
           this.srcList.push("/img/" + uuid + "/" + name);
         })
         this.src = this.srcList[0];
-        this.show = true;
       })
     },
     copy(obj) {

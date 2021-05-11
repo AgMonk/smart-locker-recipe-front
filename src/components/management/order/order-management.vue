@@ -1,11 +1,14 @@
+<!--suppress JSUnresolvedFunction -->
 <template>
   <el-container direction="vertical" style="height: 720px">
     <!--  <el-container direction="horizontal">-->
     <el-header>
-      <el-button type="primary" @click="visible.add=true;form=undefined">添加</el-button>
+      <el-button v-if="$isPermitted('InstallationOrder:add:*')" type="primary" @click="visible.add=true;form=undefined">
+        添加
+      </el-button>
     </el-header>
     <el-main style=" padding: 2px;">
-      <el-table :data="data.records" >
+      <el-table :data="data.records">
         <el-table-column type="expand" label="详情">
           <template slot-scope="s">
             <el-form label-width="80px">
@@ -25,7 +28,7 @@
                 </div>
               </el-form-item>
               <el-form-item label="照片">
-                <order-img :data="s.row.uuid" />
+                <order-img :data="s.row.uuid"/>
               </el-form-item>
             </el-form>
           </template>
@@ -42,17 +45,21 @@
         <el-table-column label="操作">
           <template slot-scope="s">
             <my-button text="提交" v-if="'待提交'===s.row.status" @click="submit(s.row.uuid)"/>
-            <my-button text="修改" v-if="['待提交','已提交'].includes(s.row.status)" @click="form=s.row;visible.edit=true"/>
-            <my-button text="派单" v-if="'已提交'===s.row.status"
+            <my-button v-show="$isPermitted('InstallationOrder:update:*')" text="修改"
+                       v-if="['待提交','已提交'].includes(s.row.status)" @click="form=s.row;visible.edit=true"/>
+            <my-button v-show="$isPermitted('InstallationOrder:assign:*')" text="派单" v-if="'已提交'===s.row.status"
                        @click="findInstallers();visible.assign=true;param.assign.uuid=s.row.uuid"/>
-            <my-button text="提审" v-if="'已派单'===s.row.status" @click="complete(s.row.uuid)"/>
-            <my-button text="修改" v-if="'已派单'===s.row.status" @click="form=s.row;visible.edit=true"/>
-            <my-button text="撤单" v-if="'已派单'===s.row.status"
+            <my-button v-show="$isPermitted('InstallationOrder:complete:*')" text="提审" v-if="'已派单'===s.row.status"
+                       @click="complete(s.row.uuid)"/>
+            <my-button v-show="$isPermitted('InstallationOrder:editInventoryMap:*')" text="修改"
+                       v-if="'已派单'===s.row.status" @click="form=s.row;visible.edit=true"/>
+            <my-button v-show="$isPermitted('InstallationOrder:abandon:*')" text="撤单" v-if="'已派单'===s.row.status"
                        @click="visible.abandon=true;param.abandon.uuid=s.row.uuid"/>
-            <my-button text="上传"
+            <my-button v-show="$isPermitted('InstallationOrder:upload:*')" text="上传"
                        v-if="['已派单','待审核','已完成'].includes(s.row.status)"
                        @click="viewPic(s.row)"/>
-            <my-button text="确认" v-if="'待审核'===s.row.status" @click="confirm(s.row.uuid)"/>
+            <my-button v-show="$isPermitted('InstallationOrder:confirm:*')" text="确认" v-if="'待审核'===s.row.status"
+                       @click="confirm(s.row.uuid)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -108,6 +115,7 @@ import {getClientWidth} from "../../../assets/js/utils";
 import MyButton from "../my/my-button";
 import OrderUpload from "./order-upload";
 import OrderImg from "./form/order-img";
+import {hasRoles} from "../../../assets/js/api/user/role-api";
 
 
 export default {
@@ -161,16 +169,6 @@ export default {
   },
   methods: {
 
-    // expandChange(row, expand) {
-    //   let uuid = row.uuid;
-    //   let uuidList = expand.map(i => i.uuid)
-    //   this.picture[uuid] = {srcList: [], src: undefined, show: false}
-    //   if (!uuidList.includes(uuid)) {
-    //     this.picture[uuid].show = false;
-    //     return;
-    //   }
-    //   this.listImg(uuid);
-    // },
     dialogWidth() {
       return getClientWidth() <= 1 ? "90%" : "50%"
     },
@@ -278,8 +276,12 @@ export default {
     },
   },
   mounted() {
-    this.page()
     this.findAllInventory()
+
+    hasRoles().then(res => {
+      this.$set(this.GLOBAL,"roles",res.data);
+      this.page()
+    })
   },
   props: [],
 }
