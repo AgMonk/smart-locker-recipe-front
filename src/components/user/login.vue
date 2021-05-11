@@ -35,6 +35,8 @@ export default {
       }).then(res => {
         this.$emit("success", res.code === 2000)
         clearCache()
+        this.$router.push("/home")
+        this.GLOBAL.logged = res.code === 2000;
       }).catch(e=>{
         this.$message(e.message)
       })

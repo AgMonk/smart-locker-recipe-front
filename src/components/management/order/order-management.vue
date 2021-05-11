@@ -1,11 +1,11 @@
 <template>
-  <el-container direction="vertical">
+  <el-container direction="vertical" style="height: 720px">
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <el-button type="primary" @click="visible.add=true;form=undefined">添加</el-button>
     </el-header>
     <el-main style=" padding: 2px;">
-      <el-table :data="data.records">
+      <el-table :data="data.records" >
         <el-table-column type="expand" label="详情">
           <template slot-scope="s">
             <el-form label-width="80px">
@@ -24,8 +24,10 @@
                   X {{ v }}
                 </div>
               </el-form-item>
+              <el-form-item label="照片">
+                <order-img :data="s.row.uuid" />
+              </el-form-item>
             </el-form>
-
           </template>
         </el-table-column>
         <el-table-column label="时间" prop="timestamp.timeString"/>
@@ -47,7 +49,7 @@
             <my-button text="修改" v-if="'已派单'===s.row.status" @click="form=s.row;visible.edit=true"/>
             <my-button text="撤单" v-if="'已派单'===s.row.status"
                        @click="visible.abandon=true;param.abandon.uuid=s.row.uuid"/>
-            <my-button text="照片"
+            <my-button text="上传"
                        v-if="['已派单','待审核','已完成'].includes(s.row.status)"
                        @click="viewPic(s.row)"/>
             <my-button text="确认" v-if="'待审核'===s.row.status" @click="confirm(s.row.uuid)"/>
@@ -90,18 +92,8 @@
       </el-form>
     </el-dialog>
 
-    <el-dialog :visible.sync="visible.picture" title="照片" :width="dialogWidth()">
-      <el-upload
-        v-if="picture.upload"
-        :file-list="picture.fileList"
-        :data="param.upload"
-        action="/api/InstallationOrder/upload"
-        class="upload-demo"
-        drag
-        list-type="picture"
-        multiple>
-        <el-button size="small" type="primary">点击上传</el-button>
-      </el-upload>
+    <el-dialog :visible.sync="visible.picture" title="照片上传" :width="dialogWidth()">
+      <order-upload v-if="visible.picture" :data="param.upload"/>
     </el-dialog>
 
   </el-container>
@@ -114,12 +106,13 @@ import {baseDel, baseFindAll, basePage} from "../../../assets/js/api/baseApi";
 import {abandon, assignOrder, complete, confirmOrder, submit} from "../../../assets/js/api/order/order";
 import {getClientWidth} from "../../../assets/js/utils";
 import MyButton from "../my/my-button";
-import {request} from "../../../assets/js/requestUtils";
+import OrderUpload from "./order-upload";
+import OrderImg from "./form/order-img";
 
 
 export default {
   name: "order-management",
-  components: {MyButton, OrderForm},
+  components: {OrderImg, OrderUpload, MyButton, OrderForm},
   data() {
     return {
       prefix: "/InstallationOrder",
@@ -137,7 +130,6 @@ export default {
         total: 50,
       },
       picture: {
-        fileList: [],
         upload: true,
         img: [],
       },
@@ -168,6 +160,17 @@ export default {
     }
   },
   methods: {
+
+    // expandChange(row, expand) {
+    //   let uuid = row.uuid;
+    //   let uuidList = expand.map(i => i.uuid)
+    //   this.picture[uuid] = {srcList: [], src: undefined, show: false}
+    //   if (!uuidList.includes(uuid)) {
+    //     this.picture[uuid].show = false;
+    //     return;
+    //   }
+    //   this.listImg(uuid);
+    // },
     dialogWidth() {
       return getClientWidth() <= 1 ? "90%" : "50%"
     },
@@ -272,16 +275,6 @@ export default {
       this.visible.picture = true;
       this.param.upload.uuid = row.uuid;
       this.picture.upload = row.status !== '已完成';
-      this.listImg(row.uuid)
-    },
-    listImg(uuid) {
-      request({
-        url: this.prefix + "/listImg",
-        params: {uuid}
-      }).then(res => {
-        this.picture.img = res.data;
-        console.log(res.data);
-      })
     },
   },
   mounted() {

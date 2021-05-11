@@ -27,16 +27,19 @@ import {hasRoles} from "../assets/js/api/user/role-api";
 export default {
   name: "navi",
   methods: {
-    checkRole(router){
+    checkRole(router) {
       if (!router.label) {
         return false;
       }
       if (!router.requiredRoles) {
         return true;
       }
-      let r = this.roles.map(role=>role.name)
+      if (!this.GLOBAL.roles) {
+        return false;
+      }
+      let r = this.GLOBAL.roles.map(role => role.name)
       for (let i = 0; i < r.length; i++) {
-        if (router.requiredRoles.includes(r[i])){
+        if (router.requiredRoles.includes(r[i])) {
           return true;
         }
       }
@@ -56,15 +59,19 @@ export default {
     },
     getStatus(route) {
       // if (route.path !== '/me') {
-        getStatus()
-          .then((res)=>{
-            hasRoles().then(res=>{
-              this.roles = res.data
-              this.$forceUpdate()
-            })
+      getStatus()
+        .then((res) => {
+          this.GLOBAL.logged = res.code === 2000;
+
+          hasRoles().then(res => {
+
+            this.GLOBAL.roles = res.data;
+
+            this.$forceUpdate()
           })
-          .catch(() => {
-            this.select('/me')
+        })
+        .catch(() => {
+          this.select('/me')
         })
       // }
     }
@@ -72,7 +79,6 @@ export default {
   data() {
     return {
       router: router,
-      roles:[],
     }
   },
   mounted() {
@@ -83,6 +89,7 @@ export default {
       handler(route) {
         console.clear();
         this.getStatus(route)
+
       }
     }
   }

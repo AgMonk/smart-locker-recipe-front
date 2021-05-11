@@ -10,6 +10,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 import "./assets/js/utils"
+
+Vue.prototype.GLOBAL = {}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
