@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-menu :default-active="$route.path" active-text-color="#ffd04b"
+  <div >
+    <el-menu  :default-active="$route.path" active-text-color="#ffd04b"
              background-color="#545c64"
              class="el-menu-demo"
              mode="horizontal"
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import router from "./router";
+import {router} from "./router";
 import {getStatus} from "../assets/js/api/user/user-api";
 import {hasRoles} from "../assets/js/api/user/role-api";
 
