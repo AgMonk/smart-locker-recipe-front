@@ -68,14 +68,15 @@
 <script>
 import OrderForm from "./form/order-form";
 import {baseDel, baseFindAll, basePage} from "../../../assets/js/api/baseApi";
-import {abandon, assignOrder, complete, confirmOrder, submit} from "../../../assets/js/api/order/order";
-import {getClientWidth} from "../../../assets/js/utils";
+import {copyObj, getClientWidth} from "../../../assets/js/utils";
 import MyButton from "../my/my-button";
 import OrderUpload from "./order-upload";
 import OrderImg from "./form/order-img";
 import {hasRoles} from "../../../assets/js/api/user/role-api";
 import OrderStatusTag from "./order-status-tag";
 import OrderOperation from "./order-operation";
+import {getStatus} from "../../../assets/js/api/user/user-api";
+import {router} from "../../../router/router";
 
 
 export default {
@@ -132,7 +133,19 @@ export default {
     },
   },
   mounted() {
-    if (this.$GLOBAL.logged) {
+    // if (!this.$GLOBAL.logged) {
+    //   getStatus()
+    //     .then(()=>{
+    //       this.$GLOBAL.logged = true;
+    //       hasRoles().then(r=> {
+    //         this.$GLOBAL.roles = r.data;
+    //         this.router = copyObj(router);
+    //         this.findAllInventory()
+    //         this.page()
+    //       })
+    //     }).catch(()=>{})
+    // }else
+    if (this.$GLOBAL.logged){
       this.findAllInventory()
       this.page()
     }

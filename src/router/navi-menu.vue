@@ -7,10 +7,10 @@
            @select="select"
   >
     <!--    <my-menu-item v-for="(route,i) in router" :key="i" :route="route"/>-->
-    <el-menu-item v-for="(route,i) in router" :key="i" v-if="!route.children&&!route.redirect" :index="route.path">
+    <el-menu-item v-for="(route,i) in myRouter" :key="i" v-if="!route.children&&!route.redirect" :index="route.path">
       {{ route.label }}
     </el-menu-item>
-    <el-submenu  v-for="(route,i) in router" :key="i" :index="route.path" v-if="route.children">
+    <el-submenu  v-for="(route,i) in myRouter" :key="i" :index="route.path" v-if="route.children">
       <template slot="title" >{{ route.label }}</template>
       <el-menu-item
         v-for="(item,i) in route.children"
@@ -24,15 +24,14 @@
 </template>
 
 <script>
-import {router2} from "./router"
-import {hasRoles} from "../assets/js/api/user/role-api";
 import {getStatus} from "../assets/js/api/user/user-api";
+import {copyObj} from "../assets/js/utils";
 
 export default {
   name: "navi-menu",
   data() {
     return {
-      router: router2,
+      myRouter:undefined,
       global:this.$GLOBAL
     }
   },
@@ -48,7 +47,7 @@ export default {
     },
   },
   mounted() {
-
+    this.myRouter = copyObj(this.router);
   },
   watch: {
     "$route":{
@@ -56,14 +55,21 @@ export default {
         if (e.path === "/me") {
           return;
         }
-        getStatus().then(res=>{
-          console.log(res)
-        }).catch(e=>{
+        getStatus()
+          .then(()=>{
+          })
+          .catch(()=>{
           this.$router.push("/me")
         })
       }
+    },
+    "router":{
+      handler(e){
+        this.myRouter = copyObj(e)
+      }
     }
-  }
+  },
+  props:["router"]
 }
 
 </script>

@@ -9,16 +9,8 @@ import roleManagement from "../components/management/user/role-management"
 import userManagement from "../components/management/user/user-management"
 import permManagement from "../components/management/user/perm-management"
 
-// export const router = [
-//   {path: '/', redirect: "/home"},
-//   {path: '/home', name: 'home', component: home, label: '主页'},
-//   {path: '/me', name: 'me', component: me, label: '我的'},
-//   {path: '/goods', name: 'goods', component: goods, label: '商品', requiredRoles: ["admin", "assignor", "inspectors"]},
-//   {path: '/management', name: 'management', component: management, label: '管理', requiredRoles: ["admin"]},
-//   // {path: '/test', name: 'test', component: test,label:'测试'},
-// ]
 
-export const router2 = [
+export const router = [
   {path: '/', redirect: "/home"},
   {path: '/home', component: home, label: '主页'},
   {path: '/me', component: me, label: '我的'},
