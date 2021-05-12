@@ -1,17 +1,33 @@
 <template>
   <div id="app">
-<!--    <navi/>-->
-    <navi-menu/>
-    <router-view/>
+    <!--    <navi/>-->
+    <el-container>
+<!--      <el-aside v-if="getClientWidth()<2">-->
+<!--        1-->
+<!--      </el-aside>-->
+      <el-header  style="padding: 0">
+<!--      <el-header v-if="getClientWidth()>=2" style="padding: 0">-->
+        <navi-menu/>
+      </el-header>
+      <el-main style="padding: 0">
+        <router-view/>
+      </el-main>
+    </el-container>
+
   </div>
 </template>
 
 <script>
 // import Navi from "./router/navi";
 import NaviMenu from "./router/navi-menu";
+import {getClientWidth} from "./assets/js/utils";
+
 export default {
   name: 'App',
-  components: {NaviMenu}
+  components: {NaviMenu},
+  methods: {
+    getClientWidth: getClientWidth
+  }
 }
 </script>
 

@@ -30,8 +30,4 @@ export default {
 </script>
 
 <style scoped>
-.d {
-  display: flex;
-  flex: 1;
-}
 </style>

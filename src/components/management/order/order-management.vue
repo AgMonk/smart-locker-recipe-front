@@ -132,11 +132,10 @@ export default {
     },
   },
   mounted() {
-    this.findAllInventory()
-    hasRoles().then(res => {
-      this.GLOBAL.roles = res.data;
+    if (this.$GLOBAL.logged) {
+      this.findAllInventory()
       this.page()
-    })
+    }
   },
   props: [],
 }

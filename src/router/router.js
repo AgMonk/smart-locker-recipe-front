@@ -25,17 +25,23 @@ export const router2 = [
   {
     path: '/goods', label: '商品', component: {template: '<router-view/>'},
     children: [
-      {path: 'goods',label: '商品', component: goodsManagement, requiredPermissions:"Goods:query:page"},
-      {path: 'inventory',label: '库存', component: inventoryManagement, requiredPermissions: "Inventory:query:page"},
-      {path: 'inventoryRecipe',label: '单据', component: inventoryRecipeManagement, requiredPermissions: "InventoryRecipe:query:page"},
+      {path: 'goods', show: false, label: '商品', component: goodsManagement, requiredPermissions: "Goods:query:page"},
+      {path: 'inventory', show: false, label: '库存', component: inventoryManagement, requiredPermissions: "Inventory:query:page"},
+      {
+        path: 'inventoryRecipe',
+        show: false,
+        label: '单据',
+        component: inventoryRecipeManagement,
+        requiredPermissions: "InventoryRecipe:query:page"
+      },
     ]
   },
   {
     path: "/user", label: '用户', component: {template: '<router-view/>'},
     children: [
-      {path: 'user', label: '用户', component: userManagement, requiredPermissions: "user:query:page"},
-      {path: 'role', label: '角色', component: roleManagement, requiredPermissions: "role:update:*"},
-      {path: 'perm', label: '权限', component: permManagement, requiredPermissions: "permission:update:*"},
+      {path: 'user', show: false, label: '用户', component: userManagement, requiredPermissions: "user:query:page"},
+      {path: 'role', show: false, label: '角色', component: roleManagement, requiredPermissions: "role:update:*"},
+      {path: 'perm', show: false, label: '权限', component: permManagement, requiredPermissions: "permission:update:*"},
     ]
   }
 

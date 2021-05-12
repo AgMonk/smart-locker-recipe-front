@@ -64,10 +64,7 @@ export default {
       logout({
         success: (res) => this.$message(res.message)
       }).then(() => {
-        this.logged = false
-        this.GLOBAL.logged=false;
-        this.GLOBAL.roles=undefined;
-        clearCache();
+        window.location.reload()
       })
     },
     clearCache() {

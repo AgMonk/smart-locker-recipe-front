@@ -16,6 +16,8 @@
 <script>
 import {login} from "../../assets/js/api/user/user-api";
 import {clearCache} from "../../assets/js/requestUtils";
+import {hasRoles} from "../../assets/js/api/user/role-api";
+import {copyObj} from "../../assets/js/utils";
 
 export default {
   name: "login",
@@ -30,14 +32,17 @@ export default {
   methods: {
     login() {
       login({
-        username:this.param.username,
-        password:this.param.password,
+        username: this.param.username,
+        password: this.param.password,
       }).then(res => {
         this.$emit("success", res.code === 2000)
         clearCache()
-        this.$router.push("/home")
-        this.GLOBAL.logged = res.code === 2000;
-      }).catch(e=>{
+        this.$GLOBAL.logged = res.code === 2000;
+        hasRoles().then(r => {
+          this.$GLOBAL.roles = r.data;
+          this.$router.push("/home")
+        })
+      }).catch(e => {
         this.$message(e.message)
       })
     }

@@ -34,10 +34,10 @@ export default {
       if (!router.requiredRoles) {
         return true;
       }
-      if (!this.GLOBAL.roles) {
+      if (!this.$GLOBAL.roles) {
         return false;
       }
-      let r = this.GLOBAL.roles.map(role => role.name)
+      let r = this.$GLOBAL.roles.map(role => role.name)
       for (let i = 0; i < r.length; i++) {
         if (router.requiredRoles.includes(r[i])) {
           return true;
@@ -61,10 +61,10 @@ export default {
       // if (route.path !== '/me') {
       getStatus()
         .then((res) => {
-          this.GLOBAL.logged = res.code === 2000;
-          if (!this.GLOBAL.roles) {
+          this.$GLOBAL.logged = res.code === 2000;
+          if (!this.$GLOBAL.roles) {
             hasRoles().then(res => {
-              this.GLOBAL.roles = res.data;
+              this.$GLOBAL.roles = res.data;
             })
           }
         })
@@ -83,13 +83,13 @@ export default {
     this.getStatus(this.$route)
   },
   watch: {
-    "$route": {
-      handler(route) {
-        console.clear();
-        this.getStatus(route)
-
-      }
-    }
+    // "$route": {
+    //   handler(route) {
+    //     console.clear();
+    //     this.getStatus(route)
+    //
+    //   }
+    // }
   }
 }
 </script>

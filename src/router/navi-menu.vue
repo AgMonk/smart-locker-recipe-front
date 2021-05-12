@@ -5,7 +5,6 @@
            mode="horizontal"
            text-color="#fff"
            @select="select"
-           @open="open"
   >
     <!--    <my-menu-item v-for="(route,i) in router" :key="i" :route="route"/>-->
     <el-menu-item v-for="(route,i) in router" :key="i" v-if="!route.children&&!route.redirect" :index="route.path">
@@ -25,21 +24,19 @@
 </template>
 
 <script>
-import MyMenuItem from "./my-menu-item";
 import {router2} from "./router"
+import {hasRoles} from "../assets/js/api/user/role-api";
+import {getStatus} from "../assets/js/api/user/user-api";
 
 export default {
   name: "navi-menu",
-  components: {MyMenuItem},
   data() {
     return {
       router: router2,
+      global:this.$GLOBAL
     }
   },
   methods: {
-    open(index,indexPath){
-      console.log(indexPath)
-    },
     select(e) {
       if (this.$route.path===e){
         return;
@@ -51,12 +48,19 @@ export default {
     },
   },
   mounted() {
+
   },
   watch: {
-    "$route": {
-      handler(route) {
-        this.router = JSON.parse(JSON.stringify(this.router));
-        console.log(1)
+    "$route":{
+      handler(e){
+        if (e.path === "/me") {
+          return;
+        }
+        getStatus().then(res=>{
+          console.log(res)
+        }).catch(e=>{
+          this.$router.push("/me")
+        })
       }
     }
   }

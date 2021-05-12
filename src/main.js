@@ -11,7 +11,7 @@ Vue.use(ElementUI);
 
 import "./assets/js/utils"
 
-Vue.prototype.GLOBAL = {}
+Vue.prototype.$GLOBAL = {}
 
 /**
  * 判断用户是否有权限
@@ -23,7 +23,7 @@ Vue.prototype.$isPermitted = (perm) => {
   let namespace = s[0];
   let action = s[1];
   let target = s[2];
-  let roles = Vue.prototype.GLOBAL.roles;
+  let roles = Vue.prototype.$GLOBAL.roles;
   if (!roles) {
     return false;
   }
