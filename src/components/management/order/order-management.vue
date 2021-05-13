@@ -133,18 +133,6 @@ export default {
     },
   },
   mounted() {
-    // if (!this.$GLOBAL.logged) {
-    //   getStatus()
-    //     .then(()=>{
-    //       this.$GLOBAL.logged = true;
-    //       hasRoles().then(r=> {
-    //         this.$GLOBAL.roles = r.data;
-    //         this.router = copyObj(router);
-    //         this.findAllInventory()
-    //         this.page()
-    //       })
-    //     }).catch(()=>{})
-    // }else
     if (this.$GLOBAL.logged){
       this.findAllInventory()
       this.page()

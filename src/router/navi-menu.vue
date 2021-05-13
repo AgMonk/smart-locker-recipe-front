@@ -45,22 +45,26 @@ export default {
     isPermitted(e) {
       return this.$isPermitted(e)
     },
+    checkStatus(e){
+      if (e.path === "/me") {
+        return;
+      }
+      getStatus()
+        .then(()=>{
+        })
+        .catch(()=>{
+          this.$router.push("/me")
+        })
+    }
   },
   mounted() {
     this.myRouter = copyObj(this.router);
+    this.checkStatus(this.$route)
   },
   watch: {
     "$route":{
       handler(e){
-        if (e.path === "/me") {
-          return;
-        }
-        getStatus()
-          .then(()=>{
-          })
-          .catch(()=>{
-          this.$router.push("/me")
-        })
+        this.checkStatus(e)
       }
     },
     "router":{
