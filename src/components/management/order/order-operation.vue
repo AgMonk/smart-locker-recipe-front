@@ -90,7 +90,7 @@ export default {
     assign(row) {
       if (!row) {
         //打开dialog
-        visible.assign = true;
+        this.visible.assign = true;
         //  查询安装员列表
         let param = {
           page: 1,
@@ -106,12 +106,12 @@ export default {
         })
       } else {
         //  请求派单
-        let id = row.id;
+        let userId = row.id;
         let uuid = this.myData.uuid;
         if (!confirm("确认派单给 " + row.name + " ?")) {
           return
         }
-        assignOrder({id, uuid}, (res) => this.$message(res.message)).then(() => {
+        assignOrder({userId, uuid}, (res) => this.$message(res.message)).then(() => {
           this.visible.assign = false;
           this.$emit("change")
         }).catch(e => {
