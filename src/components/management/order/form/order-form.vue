@@ -43,7 +43,7 @@
 import ArrayManager from "../../../utils/array-manager";
 import {copyObj} from "../../../../assets/js/utils";
 import {baseAdd, baseFindAll, baseUpdate} from "../../../../assets/js/api/baseApi";
-import {editInventoryMap} from "../../../../assets/js/api/order/order";
+import {editInventory} from "../../../../assets/js/api/order/order";
 
 export default {
   name: "order-form",
@@ -90,7 +90,7 @@ export default {
       if (this.myData.uuid) {
         //  修改
         if (this.myData.status === '已派单') {
-          editInventoryMap(this.myData,(res) => this.$message(res.message)).then(res => {
+          editInventory(this.myData, (res) => this.$message(res.message)).then(res => {
             this.$emit("success");
           })
         }else {

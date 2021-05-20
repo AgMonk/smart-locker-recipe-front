@@ -44,9 +44,9 @@ export const abandon = (param,success)=>{
   })
 }
 
-export const editInventoryMap = (data,success)=>{
+export const editInventory = (data, success)=>{
   return request({
-    url: prefix + "/editInventoryMap",
+    url: prefix + "/editInventory",
     data,
     success
   })

@@ -2,7 +2,24 @@
 <template>
   <el-container direction="vertical" style="height: 720px">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
+    <el-header height="60" style="padding: 2px">
+      <el-date-picker style="width: 180px"
+                      v-model="param.page.start"
+                      type="datetime"
+                      format="yy-MM-dd HH:mm"
+                      value-format="timestamp"
+                      placeholder="选择起始时间" @change="page"/>
+      <el-date-picker style="width: 180px"
+                      v-model="param.page.end"
+                      type="datetime"
+                      format="yy-MM-dd HH:mm"
+                      value-format="timestamp"
+                      placeholder="选择结束时间" @change="page"/>
+      <el-select v-model="param.page.condition.status" @change="page" style="width: 110px">
+        <el-option label="未选状态" :value="undefined"/>
+        <el-option v-for="(item,i) in ['待提交','已提交','已派单','待审核','已完成','已撤单']"
+                   :key="i" :label="item" :value="item"/>
+      </el-select>
       <el-button v-if="$isPermitted('InstallationOrder:add:*')" type="primary" @click="visible.add=true;form=undefined">
         添加
       </el-button>
@@ -21,9 +38,9 @@
               <el-form-item label="撤单备注" v-if="s.row.abandonedRemark">{{ s.row.abandonedRemark }}</el-form-item>
               <el-form-item label="商品">
                 <div v-for="(v,k) in s.row.inventoryList">
-                  {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].model}}
-                  {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].color}}
-                  {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].size}}
+                  {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].model }}
+                  {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].color }}
+                  {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].size }}
                 </div>
               </el-form-item>
               <el-form-item label="照片">
@@ -38,7 +55,7 @@
             <order-status-tag :status="s.row.status"/>
           </template>
         </el-table-column>
-        <el-table-column label="业主姓名" prop="ownerName" width="120px"/>
+        <el-table-column label="业主姓名" prop="ownerName" width="100px"/>
         <el-table-column label="操作">
           <template slot-scope="s">
             <!--操作按钮-->
@@ -124,7 +141,10 @@ export default {
       })
     },
     page() {
-      basePage(this.prefix, this.param.page, undefined).then(res => {
+      let p = copyObj(this.param.page)
+      p.start /= 1000;
+      p.end /= 1000;
+      basePage(this.prefix, p, undefined).then(res => {
         this.data = res.data;
       }).catch(e => {
         this.$message(e.message)
@@ -132,7 +152,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$GLOBAL.logged){
+    if (this.$GLOBAL.logged) {
       this.findAllInventory()
       this.page()
     }
