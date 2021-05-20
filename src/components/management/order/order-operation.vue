@@ -26,6 +26,9 @@
     <el-dialog class="center" :visible.sync="visible.upload" title="照片上传" :width="dialogWidth()">
       <order-upload v-if="visible.upload" :data="myData"/>
     </el-dialog>
+    <el-dialog class="center" :visible.sync="visible.inventoryInOrder" title="订单内库存" :width="dialogWidth()">
+      <inventory-in-order-form v-if="visible.inventoryInOrder" :data="myData.uuid" />
+    </el-dialog>
   </div>
 </template>
 
@@ -36,10 +39,11 @@ import MyButton from "../my/my-button";
 import OrderForm from "./form/order-form";
 import {basePage} from "../../../assets/js/api/baseApi";
 import OrderUpload from "./order-upload";
+import InventoryInOrderForm from "../goods/form/inventory-in-order-form";
 
 export default {
   name: "order-operation",
-  components: {OrderUpload, OrderForm, MyButton},
+  components: {InventoryInOrderForm, OrderUpload, OrderForm, MyButton},
   data() {
     return {
       myData: {},
@@ -51,6 +55,7 @@ export default {
         editInventoryMap: false,
         abandon: false,
         upload: false,
+        inventoryInOrder: false,
       },
       buttons: [
         //按钮名称    需要的权限     需要的状态   点击事件
@@ -62,10 +67,15 @@ export default {
         {text: "撤单", permissions: 'InstallationOrder:abandon:*', status: ['已派单'], onClick: this.abandon},
         {text: "上传", permissions: 'InstallationOrder:upload:*', status: ['已派单', '待审核'], onClick: this.upload},
         {text: "确认", permissions: 'InstallationOrder:confirm:*', status: ['待审核'], onClick: this.confirm},
+
+        {text: "SN", permissions: 'InventoryInOrder:query:*', status: ['已派单'], onClick: this.findByOrderUuid},
       ],
     }
   },
   methods: {
+    findByOrderUuid(){
+      this.visible.inventoryInOrder  = true;
+    },
     dialogWidth() {
       return getClientWidth() <= 1 ? "90%" : "50%"
     },

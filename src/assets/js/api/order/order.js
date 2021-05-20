@@ -51,3 +51,19 @@ export const editInventoryMap = (data,success)=>{
     success
   })
 }
+
+export const  findByOrderUuid = (orderUuid,success)=>{
+  return request({
+    url:"/InventoryInOrder/findByOrderUuid",
+    params:{orderUuid},
+    success
+  })
+}
+
+export const updateSn = (uuid,sn,success)=>{
+  return request({
+    url:"/InventoryInOrder/updateSn",
+    params:{uuid,sn},
+    success
+  })
+}
