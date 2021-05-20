@@ -20,11 +20,10 @@
               <el-form-item label="备注" v-if="s.row.remark">{{ s.row.remark }}</el-form-item>
               <el-form-item label="撤单备注" v-if="s.row.abandonedRemark">{{ s.row.abandonedRemark }}</el-form-item>
               <el-form-item label="商品">
-                <div v-for="(v,k) in s.row.inventoryMap">
-                  {{ inventory.filter(i => i.uuid === k)[0].model }}
-                  {{ inventory.filter(i => i.uuid === k)[0].color }}
-                  {{ inventory.filter(i => i.uuid === k)[0].size }}
-                  X {{ v }}
+                <div v-for="(v,k) in s.row.inventoryList">
+                  {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].model}}
+                  {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].color}}
+                  {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].size}}
                 </div>
               </el-form-item>
               <el-form-item label="照片">

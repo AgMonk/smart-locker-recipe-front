@@ -24,11 +24,10 @@
                    :label="item.model+' '+item.color+' '+item.size+' X '+item.amount"
         />
       </el-select>
-      <div v-for="(v,k) in myData.inventoryMap" v-if="inventory.filter(i=>i.uuid===k)[0]">
-        {{inventory.filter(i=>i.uuid===k)[0].model}}
-        {{inventory.filter(i=>i.uuid===k)[0].color}}
-        {{inventory.filter(i=>i.uuid===k)[0].size}}
-        X {{v}}
+      <div v-for="(v,k) in myData.inventoryList" v-if="inventory.filter(i=>i.uuid===v.inventoryUuid)[0]">
+        {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].model}}
+        {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].color}}
+        {{inventory.filter(i=>i.uuid===v.inventoryUuid)[0].size}}
 
         <el-button size="small" @click="splice(k)"><i class="el-icon-minus"/></el-button>
       </div>
@@ -58,27 +57,27 @@ export default {
         ownerPhone: undefined,
         ownerAddress: undefined,
         remark: undefined,
-        inventoryMap: {},
+        inventoryList: {},
       },
       inventory: [],
       aInventory: [],
     }
   },
   methods: {
-    splice(uuid){
-      if (this.myData.inventoryMap[uuid]>1) {
-        this.myData.inventoryMap[uuid] = this.myData.inventoryMap[uuid] - 1
-      }else{
-        delete this.myData.inventoryMap[uuid]
-      }
+    splice(i){
+      this.myData.inventoryList.splice(i,1)
       this.$forceUpdate()
     },
     add() {
-      if (!this.myData.inventoryMap[this.addGoods]) {
-        this.myData.inventoryMap[this.addGoods] = 1
-      } else {
-        this.myData.inventoryMap[this.addGoods] = this.myData.inventoryMap[this.addGoods] + 1
+      if (!this.myData.inventoryList) {
+        this.myData.inventoryList = [];
       }
+      this.myData.inventoryList.push({inventoryUuid:this.addGoods})
+      // if (!this.myData.inventoryMap[this.addGoods]) {
+      //   this.myData.inventoryMap[this.addGoods] = 1
+      // } else {
+      //   this.myData.inventoryMap[this.addGoods] = this.myData.inventoryMap[this.addGoods] + 1
+      // }
       this.addGoods = undefined
     },
     findAllInventory() {
