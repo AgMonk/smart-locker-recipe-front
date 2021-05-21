@@ -20,9 +20,9 @@
         <el-option v-for="(item,i) in ['待提交','已提交','已派单','待审核','已完成','已撤单']"
                    :key="i" :label="item" :value="item"/>
       </el-select>
-      <el-button v-if="$isPermitted('InstallationOrder:add:*')" type="primary" @click="visible.add=true;form=undefined">
-        添加
-      </el-button>
+      <my-button text="添加" v-if="$isPermitted('InstallationOrder:add:*')" type="primary"
+                 @click="visible.add=true;form=undefined"/>
+      <my-button text="导出" @click="exportData"/>
     </el-header>
     <el-main style=" padding: 2px;">
       <el-table :data="data.records">
@@ -51,6 +51,7 @@
           </template>
         </el-table-column>
         <el-table-column label="时间" prop="timestamp.timeString"/>
+        <el-table-column label="地区" prop="area" width="80px"/>
         <el-table-column label="状态" prop="status" width="80px">
           <template slot-scope="s">
             <order-status-tag :status="s.row.status"/>
@@ -94,6 +95,7 @@ import OrderStatusTag from "./order-status-tag";
 import OrderOperation from "./order-operation";
 import {getStatus} from "../../../assets/js/api/user/user-api";
 import {router} from "../../../router/router";
+import {request} from "../../../assets/js/requestUtils";
 
 
 export default {
@@ -124,7 +126,11 @@ export default {
     }
   },
   methods: {
-
+    exportData() {
+      let start = Math.floor(this.param.page.start / 1000);
+      let end = Math.floor(this.param.page.end / 1000);
+      window.open("./api/Excel/export?start=" + start + "&end=" + end);
+    },
     dialogWidth() {
       return getClientWidth() <= 1 ? "90%" : "50%"
     },
@@ -153,6 +159,10 @@ export default {
     },
   },
   mounted() {
+    let now = new Date().getTime();
+    this.param.page.start = now - 30 * 24 * 60 * 1000;
+    this.param.page.end = now;
+
     if (this.$GLOBAL.logged) {
       this.findAllInventory()
       this.page()
