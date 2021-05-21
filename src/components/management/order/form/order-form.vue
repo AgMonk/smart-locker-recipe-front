@@ -8,10 +8,15 @@
       <el-input v-model="myData.ownerPhone" v-if="myData.status !== '已派单'"/>
       <span v-if="myData.status === '已派单'">{{myData.ownerPhone}}</span>
     </el-form-item>
+    <el-form-item label="地区">
+      <el-input v-model="myData.area" v-if="myData.status !== '已派单'"/>
+      <span v-if="myData.status === '已派单'">{{myData.area}}</span>
+    </el-form-item>
     <el-form-item label="业主地址">
       <el-input v-model="myData.ownerAddress" v-if="myData.status !== '已派单'"/>
       <span v-if="myData.status === '已派单'">{{myData.ownerAddress}}</span>
     </el-form-item>
+
     <el-form-item label="备注">
       <el-input v-model="myData.remark" v-if="myData.status !== '已派单'"/>
       <span v-if="myData.status === '已派单'">{{myData.remark}}</span>
@@ -56,6 +61,7 @@ export default {
         ownerName: undefined,
         ownerPhone: undefined,
         ownerAddress: undefined,
+        area: undefined,
         remark: undefined,
         inventoryList: {},
       },

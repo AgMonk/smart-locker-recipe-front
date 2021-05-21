@@ -31,6 +31,7 @@
             <el-form label-width="80px">
               <el-form-item label="业主姓名">{{ s.row.ownerName }}</el-form-item>
               <el-form-item label="业主电话">{{ s.row.ownerPhone }}</el-form-item>
+              <el-form-item label="地区">{{ s.row.area }}</el-form-item>
               <el-form-item label="业主地址">{{ s.row.ownerAddress }}</el-form-item>
               <el-form-item label="报装员ID">{{ s.row.submitter }}</el-form-item>
               <el-form-item label="安装员ID">{{ s.row.installer }}</el-form-item>

@@ -8,6 +8,7 @@ import inventoryRecipeManagement from "../components/management/goods/inventory-
 import roleManagement from "../components/management/user/role-management"
 import userManagement from "../components/management/user/user-management"
 import permManagement from "../components/management/user/perm-management"
+import userAreaManagement from "../components/management/user/user-area-management";
 
 
 export const router = [
@@ -34,6 +35,7 @@ export const router = [
       {path: 'user', show: false, label: '用户', component: userManagement, requiredPermissions: "user:query:page"},
       {path: 'role', show: false, label: '角色', component: roleManagement, requiredPermissions: "role:update:*"},
       {path: 'perm', show: false, label: '权限', component: permManagement, requiredPermissions: "permission:update:*"},
+      {path: 'area', show: false, label: '地区', component: userAreaManagement, requiredPermissions: "UserArea:update:*"},
     ]
   }
 
