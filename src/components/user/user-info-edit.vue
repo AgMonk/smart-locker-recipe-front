@@ -7,7 +7,13 @@
       <el-input v-model="param.phone"/>
     </el-form-item>
     <el-form-item label="区域">
-      <el-input v-model="param.area"/>
+      <el-select v-model="param.area" style="width: 100%">
+        <el-option v-for="(item,i) in areas"
+                   :value="item"
+                   :label="item"
+                   :key="i"
+        />
+      </el-select>
     </el-form-item>
     <el-form-item label-width="0">
       <el-button type="danger" @click="param={}">重置</el-button>
@@ -18,6 +24,7 @@
 
 <script>
 import {editUserInfo} from "../../assets/js/api/user/user-api";
+import {baseFindAll} from "../../assets/js/api/baseApi";
 
 export default {
   name: "user-info-edit",
@@ -28,15 +35,20 @@ export default {
         name: "",
         area: "",
       },
+      areas:[],
     }
   },
   methods: {
     editUserInfo() {
       this.param.success = (res) => this.$message(res.message)
       editUserInfo(this.param).then(() => this.$emit("success")).catch(e=>this.$message(e.data[0]))
-    }
+    },
+    findAllAreas(){
+      baseFindAll("/UserArea").then(res=>this.areas=res.data);
+    },
   },
   mounted() {
+    this.findAllAreas();
     this.param = this.data;
   },
   watch: {
