@@ -9,7 +9,13 @@
       <span v-if="myData.status === '已派单'">{{myData.ownerPhone}}</span>
     </el-form-item>
     <el-form-item label="地区">
-      <el-input v-model="myData.area" v-if="myData.status !== '已派单'"/>
+      <el-select v-model="myData.area" style="width: 100%">
+        <el-option v-for="(item,i) in areas"
+                   :value="item"
+                   :label="item"
+                   :key="i"
+                   />
+      </el-select>
       <span v-if="myData.status === '已派单'">{{myData.area}}</span>
     </el-form-item>
     <el-form-item label="业主地址">
@@ -21,8 +27,8 @@
       <el-input v-model="myData.remark" v-if="myData.status !== '已派单'"/>
       <span v-if="myData.status === '已派单'">{{myData.remark}}</span>
     </el-form-item>
-    <el-form-item label="商品">
-      <el-select v-model="addGoods" placeholder="添加商品" @change="add">
+    <el-form-item label="商品" >
+      <el-select v-model="addGoods" placeholder="添加商品" @change="add" style="width: 100%">
         <el-option v-for="item in aInventory"
                    :value="item.uuid"
                    :key="item.uuid"
@@ -67,9 +73,13 @@ export default {
       },
       inventory: [],
       aInventory: [],
+      areas:[],
     }
   },
   methods: {
+    findAllAreas(){
+      baseFindAll("/UserArea").then(res=>this.areas=res.data);
+    },
     splice(i){
       this.myData.inventoryList.splice(i,1)
       this.$forceUpdate()
@@ -121,6 +131,7 @@ export default {
     this.copy(this.data)
     console.log(this.myData)
     this.findAllInventory()
+    this.findAllAreas();
   },
   watch: {
     "data": {

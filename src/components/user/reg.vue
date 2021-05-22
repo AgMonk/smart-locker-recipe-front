@@ -13,7 +13,13 @@
       <el-input v-model="param.phone" clearable/>
     </el-form-item>
     <el-form-item label="区域">
-      <el-input v-model="param.area" clearable/>
+      <el-select v-model="param.area" style="width: 100%">
+        <el-option v-for="(item,i) in areas"
+                   :value="item"
+                   :label="item"
+                   :key="i"
+        />
+      </el-select>
     </el-form-item>
 
 
@@ -27,6 +33,7 @@
 <script>
 
 import {reg} from "../../assets/js/api/user/user-api";
+import {baseFindAll} from "../../assets/js/api/baseApi";
 
 export default {
   name: "reg",
@@ -38,7 +45,8 @@ export default {
         name: "",
         phone: "",
         area: "",
-      }
+      },
+      areas:[],
     }
   },
   methods: {
@@ -48,8 +56,12 @@ export default {
         this.$message(e.data[0])
       })
     },
+    findAllAreas(){
+      baseFindAll("/UserArea").then(res=>this.areas=res.data);
+    },
   },
   mounted() {
+    this.findAllAreas();
   },
 }
 </script>

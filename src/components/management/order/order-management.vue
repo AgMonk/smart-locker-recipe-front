@@ -159,8 +159,14 @@ export default {
     },
   },
   mounted() {
-    let now = new Date().getTime();
-    this.param.page.start = now - 30 * 24 * 60 * 1000;
+    let date = new Date();
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    date.setDate(date.getDate()+1);
+    let now = date.getTime();
+    this.param.page.start = now - 30 * 24 * 60 * 60 * 1000;
     this.param.page.end = now;
 
     if (this.$GLOBAL.logged) {

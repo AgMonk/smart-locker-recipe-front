@@ -4,8 +4,8 @@
 
 const path = require('path')
 
-let domain = 'http://localhost:8900'
-// let domain = 'http://119.23.252.72:8900'
+// let domain = 'http://localhost:8900'
+let domain = 'http://119.23.252.72:8900'
 
 module.exports = {
   dev: {

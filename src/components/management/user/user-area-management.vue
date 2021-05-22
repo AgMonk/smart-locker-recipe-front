@@ -7,7 +7,7 @@
     </el-header>
     <el-main style=" padding: 2px;">
       <el-table :data="data.records">
-        <el-table-column label="UUID" prop="uuid" />
+<!--        <el-table-column label="UUID" prop="uuid" />-->
         <el-table-column label="地区" prop="name" />
         <el-table-column label="操作">
           <template slot-scope="scope">
