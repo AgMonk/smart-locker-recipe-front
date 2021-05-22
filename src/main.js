@@ -12,7 +12,6 @@ Vue.use(ElementUI);
 import "./assets/js/utils"
 
 Vue.prototype.$GLOBAL = {}
-
 /**
  * 判断用户是否有权限
  * @returns {boolean}

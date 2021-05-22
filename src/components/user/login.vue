@@ -42,8 +42,6 @@ export default {
           this.$GLOBAL.roles = r.data;
           this.$router.push("/home")
         })
-      }).catch(e => {
-        this.$message(e.message)
       })
     }
   },

@@ -32,15 +32,11 @@ export default {
       //  修改
         baseUpdate(this.prefix,this.myData,(res) => this.$message(res.message)).then(res=>{
           this.$emit("success");
-        }).catch(e=>{
-          this.$message(e.message)
         })
       }else{
       //  添加
         baseAdd(this.prefix, this.myData,(res) => this.$message(res.message)).then(res=>{
           this.$emit("success");
-        }).catch(e=>{
-          this.$message(e.message)
         })
       }
     },

@@ -37,6 +37,7 @@ export default {
     }
   },
   mounted() {
+
     console.log("刷新")
     getStatus()
       .then(()=>{

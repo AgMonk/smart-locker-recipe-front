@@ -1,4 +1,5 @@
 import axios from "axios";
+import Vue from "vue";
 
 /**
  * 发送请求
@@ -23,6 +24,7 @@ export const request = ({url, params, data, method = "post", success}) => {
           }
           resolve(d)
         } else {
+          Vue.prototype.$message(d.message)
           reject(d)
         }
       } else {

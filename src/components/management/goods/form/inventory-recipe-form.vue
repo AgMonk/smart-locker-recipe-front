@@ -36,27 +36,21 @@ export default {
         url:"/"+this.prefix+"/in",
         data:this.myData,
         success:(res) => this.$message(res.message)
-      })  .then(()=>this.$emit("success")).catch(e=>{
-        this.$message(e.message)
-      })
+      })  .then(()=>this.$emit("success"))
     },
     outRecipe(){
       request({
         url:"/"+this.prefix+"/out",
         data:this.myData,
         success:(res) => this.$message(res.message)
-      })  .then(()=>this.$emit("success")).catch(e=>{
-        this.$message(e.message)
-      })
+      })  .then(()=>this.$emit("success"))
     },
     checkRecipe(){
       request({
         url:"/"+this.prefix+"/check",
         data:this.myData,
         success:(res) => this.$message(res.message)
-      })  .then(()=>this.$emit("success")).catch(e=>{
-        this.$message(e.message)
-      })
+      })  .then(()=>this.$emit("success"))
     },
     copy(obj){
       console.log("复制" + obj)
