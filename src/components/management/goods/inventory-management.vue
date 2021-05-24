@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
-      <el-button type="primary" @click="visible.add=true;form={}">添加</el-button>
+      <el-button type="primary" v-if="$isPermitted('Inventory:add:*')" @click="visible.add=true;form={}">添加</el-button>
     </el-header>
     <el-main>
       <el-table :data="data.records">
@@ -13,9 +13,9 @@
         <el-table-column label="数量" prop="amount" width="70px" />
         <el-table-column label="操作">
           <template slot-scope="s">
-            <el-button type="primary" @click="inventoryUuid=s.row.uuid;visible.recipe=true">添加单据</el-button>
-            <el-button type="primary" @click="form=s.row;visible.edit=true">修改</el-button>
-            <el-button type="danger" @click="del(s.row.uuid)">删除</el-button>
+            <el-button type="primary" @click="inventoryUuid=s.row.uuid;visible.recipe=true" v-if="$isPermitted('InventoryRecipe:in:*')">添加单据</el-button>
+            <el-button type="primary" @click="form=s.row;visible.edit=true" v-if="$isPermitted('Inventory:update:*')">修改</el-button>
+            <el-button type="danger" @click="del(s.row.uuid)" v-if="$isPermitted('Inventory:del:*')">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
