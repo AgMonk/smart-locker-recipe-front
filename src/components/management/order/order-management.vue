@@ -61,7 +61,7 @@
         <el-table-column label="操作">
           <template slot-scope="s">
             <!--操作按钮-->
-            <order-operation :data="s.row" @change="page"/>
+            <order-operation :data="s.row" @change="page" @upload-success="page"/>
           </template>
         </el-table-column>
       </el-table>

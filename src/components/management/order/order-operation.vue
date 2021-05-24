@@ -3,7 +3,7 @@
     <my-button v-for="(b,i) in buttons" :key="i" v-if="showButton(b)" :text="b.text" @click="b.onClick"/>
 
 
-    <el-dialog class="center" :visible.sync="visible.update" title="修改" :width="dialogWidth()" >
+    <el-dialog class="center" :visible.sync="visible.update" title="修改" :width="dialogWidth()">
       <order-form v-if="visible.update" :data="myData" @success="visible.update=false;$emit('change')"/>
     </el-dialog>
     <el-dialog class="center" :visible.sync="visible.assign" title="派单" :width="dialogWidth()">
@@ -27,7 +27,8 @@
       <order-upload v-if="visible.upload" :data="myData"/>
     </el-dialog>
     <el-dialog class="center" :visible.sync="visible.inventoryInOrder" title="订单内库存" :width="dialogWidth()">
-      <inventory-in-order-form v-if="visible.inventoryInOrder" :data="myData.uuid" />
+      <inventory-in-order-form v-if="visible.inventoryInOrder" :data="myData.uuid"
+                               @upload-success="$emit('upload-success')"/>
     </el-dialog>
   </div>
 </template>
@@ -73,8 +74,8 @@ export default {
     }
   },
   methods: {
-    findByOrderUuid(){
-      this.visible.inventoryInOrder  = true;
+    findByOrderUuid() {
+      this.visible.inventoryInOrder = true;
     },
     dialogWidth() {
       return getClientWidth() <= 1 ? "90%" : "50%"
@@ -187,7 +188,7 @@ export default {
 </script>
 
 <style scoped>
-.center{
+.center {
   text-align: center
 }
 </style>
