@@ -28,13 +28,17 @@
       <el-table :data="data.records">
         <el-table-column type="expand" label="详情">
           <template slot-scope="s">
-            <el-form label-width="80px">
+            <el-form label-width="90px">
               <el-form-item label="业主姓名">{{ s.row.ownerName }}</el-form-item>
               <el-form-item label="业主电话">{{ s.row.ownerPhone }}</el-form-item>
               <el-form-item label="地区">{{ s.row.area }}</el-form-item>
               <el-form-item label="业主地址">{{ s.row.ownerAddress }}</el-form-item>
-              <el-form-item label="报装员ID">{{ s.row.submitter }}</el-form-item>
-              <el-form-item label="安装员ID">{{ s.row.installer }}</el-form-item>
+<!--              <el-form-item label="报装员ID">{{ s.row.submitter }}</el-form-item>-->
+              <el-form-item label="报装员姓名">{{ s.row.submitterName }}</el-form-item>
+              <el-form-item label="报装员电话">{{ s.row.submitterPhone }}</el-form-item>
+<!--              <el-form-item label="安装员ID">{{ s.row.installer }}</el-form-item>-->
+              <el-form-item label="安装员姓名" v-if="s.row.installerName">{{ s.row.installerName }}</el-form-item>
+              <el-form-item label="安装员电话" v-if="s.row.installerPhone">{{ s.row.installerPhone }}</el-form-item>
               <el-form-item label="备注" v-if="s.row.remark">{{ s.row.remark }}</el-form-item>
               <el-form-item label="撤单备注" v-if="s.row.abandonedRemark">{{ s.row.abandonedRemark }}</el-form-item>
               <el-form-item label="商品">
