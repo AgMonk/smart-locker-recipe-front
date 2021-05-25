@@ -30,19 +30,25 @@
           <template slot-scope="s">
             <el-form label-width="90px">
               <el-form-item label="业主姓名">{{ s.row.ownerName }}</el-form-item>
-              <el-form-item label="业主电话">{{ s.row.ownerPhone }}</el-form-item>
+              <el-form-item label="业主电话">
+                <span :data-clipboard-text="s.row.ownerPhone" class="copy-btn" @click="copy">{{ s.row.ownerPhone }}</span>
+              </el-form-item>
               <el-form-item label="地区">{{ s.row.area }}</el-form-item>
               <el-form-item label="业主地址">{{ s.row.ownerAddress }}</el-form-item>
-<!--              <el-form-item label="报装员ID">{{ s.row.submitter }}</el-form-item>-->
+              <!--              <el-form-item label="报装员ID">{{ s.row.submitter }}</el-form-item>-->
               <el-form-item label="报装员姓名">{{ s.row.submitterName }}</el-form-item>
-              <el-form-item label="报装员电话">{{ s.row.submitterPhone }}</el-form-item>
-<!--              <el-form-item label="安装员ID">{{ s.row.installer }}</el-form-item>-->
+              <el-form-item label="报装员电话">
+                <span :data-clipboard-text="s.row.submitterPhone" class="copy-btn" @click="copy">{{ s.row.submitterPhone }}</span>
+              </el-form-item>
+              <!--              <el-form-item label="安装员ID">{{ s.row.installer }}</el-form-item>-->
               <el-form-item label="安装员姓名" v-if="s.row.installerName">{{ s.row.installerName }}</el-form-item>
-              <el-form-item label="安装员电话" v-if="s.row.installerPhone">{{ s.row.installerPhone }}</el-form-item>
+              <el-form-item v-if="s.row.installerPhone" label="安装员电话">
+                <span :data-clipboard-text="s.row.submitterPhone" class="copy-btn" @click="copy">{{ s.row.installerPhone }}</span>
+              </el-form-item>
               <el-form-item label="备注" v-if="s.row.remark">{{ s.row.remark }}</el-form-item>
               <el-form-item label="撤单备注" v-if="s.row.abandonedRemark">{{ s.row.abandonedRemark }}</el-form-item>
               <el-form-item label="商品">
-                <div v-for="(v,k) in s.row.inventoryList">
+                <div v-for="(v,k) in s.row.inventoryList" :key="k">
                   {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].model }}
                   {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].color }}
                   {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].size }}
@@ -94,13 +100,9 @@ import {copyObj, getClientWidth} from "../../../assets/js/utils";
 import MyButton from "../my/my-button";
 import OrderUpload from "./order-upload";
 import OrderImg from "./form/order-img";
-import {hasRoles} from "../../../assets/js/api/user/role-api";
 import OrderStatusTag from "./order-status-tag";
 import OrderOperation from "./order-operation";
-import {getStatus} from "../../../assets/js/api/user/user-api";
-import {router} from "../../../router/router";
-import {request} from "../../../assets/js/requestUtils";
-
+import Clipboard from 'clipboard';
 
 export default {
   name: "order-management",
@@ -130,6 +132,23 @@ export default {
     }
   },
   methods: {
+    copy() {
+      console.log("复制")
+      let _this = this;
+      let clipboard = new Clipboard(".copy-btn"); // 这里括号里填写上面点击事件绑定的class名
+      clipboard.on("success", () => {
+        // 复制成功，提示根据自己项目实际使用的UI来写
+        _this.$message("复制成功")
+        // 释放内存
+        clipboard.destroy();
+      });
+      clipboard.on("error", () => {
+        // 不支持复制，提示根据自己项目实际使用的UI来写
+        _this.$message("该浏览器不支持自动复制")
+        // 释放内存
+        clipboard.destroy();
+      });
+    },
     exportData() {
       let start = Math.floor(this.param.page.start / 1000);
       let end = Math.floor(this.param.page.end / 1000);
