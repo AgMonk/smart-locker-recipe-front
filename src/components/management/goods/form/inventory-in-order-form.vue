@@ -6,14 +6,22 @@
     <el-table-column label="SN" prop="sn"/>
     <el-table-column label="SN">
       <template slot-scope="s">
-        <!--       <el-input v-model = "s.row.sn" @focus="$event.currentTarget.select()" @change="updateSn(s.row.uuid,s.row.sn)" />-->
-        <el-upload
-          :data="{uuid:s.row.uuid}"
-          :on-success="findByOrderUuid"
-          action="/api/InventoryInOrder/uploadSn"
-        >
-          <el-button size="small" type="primary"><i class="el-icon-plus"/></el-button>
-        </el-upload>
+        <el-row>
+          <el-col :span="4">
+            <el-upload
+              :data="{uuid:s.row.uuid}"
+              :on-success="findByOrderUuid"
+              action="/api/InventoryInOrder/uploadSn"
+            >
+              <el-button size="small" type="primary"><i class="el-icon-plus"/></el-button>
+            </el-upload>
+          </el-col>
+          <el-col :span="20">
+            <el-input v-model="s.row.sn" @change="updateSn(s.row.uuid,s.row.sn)" @focus="$event.currentTarget.select()"/>
+          </el-col>
+        </el-row>
+
+
       </template>
     </el-table-column>
 
@@ -23,7 +31,7 @@
 </template>
 
 <script>
-import {findByOrderUuid} from "../../../../assets/js/api/order/order";
+import {findByOrderUuid, updateSn} from "../../../../assets/js/api/order/order";
 import {copyObj} from "../../../../assets/js/utils";
 import {baseFindAll} from "../../../../assets/js/api/baseApi";
 
@@ -61,6 +69,9 @@ export default {
         this.inventory = res.data;
         this.findByOrderUuid({code: 2000});
       })
+    },
+    updateSn(uuid, sn) {
+      updateSn(uuid, sn, (res) => this.$message(res.message))
     },
   },
   mounted() {
