@@ -3,25 +3,21 @@
     <el-table-column label="型号" prop="model" width="60px"/>
     <el-table-column label="尺寸" prop="size" width="50px"/>
     <el-table-column label="颜色" prop="color" width="50px"/>
-    <el-table-column label="SN" prop="sn"/>
     <el-table-column label="SN">
       <template slot-scope="s">
-        <el-row>
-          <el-col :span="4">
-            <el-upload
-              :data="{uuid:s.row.uuid}"
-              :on-success="findByOrderUuid"
-              action="/api/InventoryInOrder/uploadSn"
-            >
-              <el-button size="small" type="primary"><i class="el-icon-plus"/></el-button>
-            </el-upload>
-          </el-col>
-          <el-col :span="20">
-            <el-input v-model="s.row.sn" @change="updateSn(s.row.uuid,s.row.sn)" @focus="$event.currentTarget.select()"/>
-          </el-col>
-        </el-row>
-
-
+        <el-input v-model="s.row.sn" @change="updateSn(s.row.uuid,s.row.sn)" @focus="$event.currentTarget.select()"/>
+      </template>
+    </el-table-column>
+    <el-table-column label="SN" width="80px">
+      <template slot-scope="s">
+        <el-upload
+          :data="{uuid:s.row.uuid}"
+          :on-success="findByOrderUuid"
+          action="/api/InventoryInOrder/uploadSn"
+          accept="image/png, image/jpeg"
+        >
+          <el-button size="small" type="primary"><i class="el-icon-plus"/></el-button>
+        </el-upload>
       </template>
     </el-table-column>
 
