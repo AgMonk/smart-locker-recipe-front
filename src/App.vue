@@ -19,7 +19,7 @@
 
 <script>
 import NaviMenu from "./router/navi-menu";
-import {copyObj, getClientWidth} from "./assets/js/utils";
+import {getClientWidth} from "./assets/js/utils";
 import {router} from "./router/router";
 import {getStatus} from "./assets/js/api/user/user-api";
 import {hasRoles} from "./assets/js/api/user/role-api";
@@ -37,8 +37,6 @@ export default {
     }
   },
   mounted() {
-
-    console.log("刷新")
     getStatus()
       .then(()=>{
         this.$GLOBAL.logged = true;
