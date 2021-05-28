@@ -20,7 +20,7 @@
         <el-option v-for="(item,i) in ['待提交','已提交','已派单','待审核','已完成','已撤单']"
                    :key="i" :label="item" :value="item"/>
       </el-select>
-      <my-button text="添加" v-if="$isPermitted('InstallationOrder:add:*')" type="primary"
+      <my-button v-if="$store.getters.isPermitted('InstallationOrder:add:*')" text="添加" type="primary"
                  @click="visible.add=true;form=undefined"/>
       <my-button text="导出" @click="exportData"/>
     </el-header>
@@ -187,14 +187,21 @@ export default {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
-    date.setDate(date.getDate()+1);
+    date.setDate(date.getDate() + 1);
     let now = date.getTime();
     this.param.page.start = now - 30 * 24 * 60 * 60 * 1000;
     this.param.page.end = now;
 
-    if (this.$GLOBAL.logged) {
+    if (this.$store.state.user.loginState) {
       this.findAllInventory()
       this.page()
+    } else {
+      setTimeout(() => {
+        if (this.$store.state.user.loginState) {
+          this.findAllInventory()
+          this.page()
+        }
+      }, 500)
     }
   },
   props: [],

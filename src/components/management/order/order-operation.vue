@@ -84,7 +84,7 @@ export default {
       this.myData = obj ? copyObj(obj) : {};
     },
     showButton(button) {
-      return button.status.includes(this.myData.status) && this.$isPermitted(button.permissions);
+      return button.status.includes(this.myData.status) && this.$store.getters.isPermitted(button.permissions);
     },
     submit() {
       if (!confirm("确认提交？")) {

@@ -14,7 +14,7 @@
       <template slot="title" >{{ route.label }}</template>
       <el-menu-item
         v-for="(item,i) in route.children"
-        v-if="isPermitted(item.requiredPermissions)"
+        v-if="$store.getters.isPermitted(item.requiredPermissions)"
         :key="i"
         :index="route.path+'/'+item.path"
       >{{ item.label }}
@@ -32,7 +32,6 @@ export default {
   data() {
     return {
       myRouter:undefined,
-      global:this.$GLOBAL
     }
   },
   methods: {
@@ -41,9 +40,6 @@ export default {
         return;
       }
       this.$router.push(e);
-    },
-    isPermitted(e) {
-      return this.$isPermitted(e)
     },
     checkStatus(e){
       if (e.path === "/me") {
@@ -59,12 +55,14 @@ export default {
   },
   mounted() {
     this.myRouter = copyObj(this.router);
-    this.checkStatus(this.$route)
+    this.$store.commit("updateLoginState")
   },
   watch: {
     "$route":{
-      handler(e){
-        this.checkStatus(e)
+      handler(e) {
+        // this.checkStatus(e)
+        this.$store.commit("updateLoginState")
+
       }
     },
     "router":{

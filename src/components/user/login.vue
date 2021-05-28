@@ -17,7 +17,6 @@
 import {login} from "../../assets/js/api/user/user-api";
 import {clearCache} from "../../assets/js/requestUtils";
 import {hasRoles} from "../../assets/js/api/user/role-api";
-import {copyObj} from "../../assets/js/utils";
 
 export default {
   name: "login",
@@ -37,10 +36,10 @@ export default {
       }).then(res => {
         this.$emit("success", res.code === 2000)
         clearCache()
-        this.$GLOBAL.logged = res.code === 2000;
+        this.$store.state.user.loginState = res.code === 2000;
         hasRoles().then(r => {
-          this.$GLOBAL.roles = r.data;
-          this.$router.push("/home")
+          this.$store.state.user.roles = r.data;
+          // this.$router.push("/home")
         })
       })
     }

@@ -6,7 +6,7 @@
       <el-row>
         <el-col :xs="{span:20,offset:2}" :lg="{span:12,offset:6}">
           <!--      已登陆-->
-          <el-container v-if="logged" direction="vertical">
+          <el-container v-if="$store.state.user.loginState" direction="vertical">
             <el-main>
               <user-info/>
             </el-main>
@@ -16,7 +16,7 @@
             </el-footer>
           </el-container>
           <!--      未登陆-->
-          <el-container v-if="!logged">
+          <el-container v-if="!$store.state.user.loginState">
             <el-main>
               <el-tabs v-model="tabs">
                 <el-tab-pane label="登陆" name="登陆">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {getStatus, logout} from "../../assets/js/api/user/user-api";
+import {logout} from "../../assets/js/api/user/user-api";
 import Login from "../user/login";
 import Reg from "../user/reg";
 import {clearCache} from "../../assets/js/requestUtils";
@@ -75,11 +75,6 @@ export default {
     },
   },
   mounted() {
-    getStatus().then(() => {
-      this.logged = true;
-    }).catch(() => {
-      this.logged = false;
-    })
   },
   props: [],
 }

@@ -7,10 +7,10 @@
 <!--      </el-aside>-->
       <el-header  style="padding: 0">
 <!--      <el-header v-if="getClientWidth()>=2" style="padding: 0">-->
-        <navi-menu v-if="show" :router="router"/>
+        <navi-menu :router="router"/>
       </el-header>
       <el-main style="padding: 0">
-        <router-view v-if="show"/>
+        <router-view/>
       </el-main>
     </el-container>
 
@@ -21,8 +21,6 @@
 import NaviMenu from "./router/navi-menu";
 import {getClientWidth} from "./assets/js/utils";
 import {router} from "./router/router";
-import {getStatus} from "./assets/js/api/user/user-api";
-import {hasRoles} from "./assets/js/api/user/role-api";
 
 export default {
   name: 'App',
@@ -37,16 +35,6 @@ export default {
     }
   },
   mounted() {
-    getStatus()
-      .then(()=>{
-        this.$GLOBAL.logged = true;
-        hasRoles().then(r=> {
-          this.$GLOBAL.roles = r.data;
-          this.show=true;
-        })
-      }).catch(()=>{
-      this.show=true;
-    })
   }
 }
 </script>
