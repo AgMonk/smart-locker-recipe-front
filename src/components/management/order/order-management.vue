@@ -103,6 +103,7 @@ import OrderImg from "./form/order-img";
 import OrderStatusTag from "./order-status-tag";
 import OrderOperation from "./order-operation";
 import Clipboard from 'clipboard';
+import {mapActions} from 'vuex'
 
 export default {
   name: "order-management",
@@ -180,6 +181,7 @@ export default {
         this.$message(e.message)
       })
     },
+    ...mapActions(["updateLoginState"])
   },
   mounted() {
     let date = new Date();
@@ -192,17 +194,12 @@ export default {
     this.param.page.start = now - 30 * 24 * 60 * 60 * 1000;
     this.param.page.end = now;
 
-    if (this.$store.state.user.loginState) {
+
+    this.updateLoginState().then(() => {
       this.findAllInventory()
       this.page()
-    } else {
-      setTimeout(() => {
-        if (this.$store.state.user.loginState) {
-          this.findAllInventory()
-          this.page()
-        }
-      }, 500)
-    }
+    })
+
   },
   props: [],
 }

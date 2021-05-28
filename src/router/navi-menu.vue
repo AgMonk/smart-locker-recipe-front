@@ -55,13 +55,16 @@ export default {
   },
   mounted() {
     this.myRouter = copyObj(this.router);
-    this.$store.commit("updateLoginState")
+    this.$store.dispatch("updateLoginState")
   },
   watch: {
     "$route":{
       handler(e) {
-        // this.checkStatus(e)
-        this.$store.commit("updateLoginState")
+        console.clear()
+        console.log(e)
+        if (e.path !== '/home') {
+          this.$store.dispatch("updateLoginState")
+        }
 
       }
     },

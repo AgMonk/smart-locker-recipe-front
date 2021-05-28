@@ -37,11 +37,41 @@ export const store = new Vuex.Store({
           })
         }
         state.user.loginState = true;
-
       })
         .catch(() => {
           state.user.loginState = false;
         })
+    },
+  },
+  actions: {
+    updateLoginState({commit, dispatch, state}) {
+      console.log("检查登陆状态")
+      return new Promise((resolve, reject) => {
+        request({
+          url: "/user/status"
+        }).then(() => {
+          if (!state.user.loginState) {
+            //如果状态从 false 变为 true 更新角色信息
+            dispatch("updateUserRoles").then(() => {
+              state.user.loginState = true;
+              resolve(true)
+            })
+          } else {
+            state.user.loginState = true;
+            resolve(true)
+          }
+        }).catch(() => {
+          state.user.loginState = false;
+          reject(false);
+        })
+      })
+    },
+    updateUserRoles({state}) {
+      return request({
+        url: "/role/hasRoles"
+      }).then(res => {
+        state.user.roles = res
+      })
     },
   },
   //渲染方法
