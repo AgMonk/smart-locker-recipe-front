@@ -14,7 +14,7 @@ export const user = {
           url: "/user/status"
         }).then(() => {
           state.loginState = true;
-          if (!state.loginState) {
+          if (!state.loginState || state.roles.length === 0) {
             //如果状态从 false 变为 true 更新角色信息
             dispatch("updateUserRoles").then(() => {
               resolve(true)

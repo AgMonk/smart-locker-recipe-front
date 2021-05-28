@@ -31,7 +31,8 @@ export default {
   name: "navi-menu",
   data() {
     return {
-      myRouter:undefined,
+      myRouter: undefined,
+      show: false,
     }
   },
   methods: {
