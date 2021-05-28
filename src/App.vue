@@ -7,10 +7,10 @@
 <!--      </el-aside>-->
       <el-header  style="padding: 0">
 <!--      <el-header v-if="getClientWidth()>=2" style="padding: 0">-->
-        <navi-menu :router="router"/>
+        <navi-menu v-if="show" :router="router"/>
       </el-header>
       <el-main style="padding: 0">
-        <router-view/>
+        <router-view v-if="show"/>
       </el-main>
     </el-container>
 
@@ -35,6 +35,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch("user/updateLoginState").then(() => this.show = true).catch(() => this.show = true)
   }
 }
 </script>
