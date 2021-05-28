@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
-      <el-button v-if="$store.getters.isPermitted('Inventory:add:*')" type="primary" @click="visible.add=true;form={}">添加
+      <el-button v-if="$store.getters['user/isPermitted']('Inventory:add:*')" type="primary" @click="visible.add=true;form={}">添加
       </el-button>
     </el-header>
     <el-main>
@@ -14,13 +14,14 @@
         <el-table-column label="数量" prop="amount" width="70px" />
         <el-table-column label="操作">
           <template slot-scope="s">
-            <el-button v-if="$store.getters.isPermitted('InventoryRecipe:in:*')" type="primary"
+            <el-button v-if="$store.getters['user/isPermitted']('InventoryRecipe:in:*')" type="primary"
                        @click="inventoryUuid=s.row.uuid;visible.recipe=true">添加单据
             </el-button>
-            <el-button v-if="$store.getters.isPermitted('Inventory:update:*')" type="primary"
+            <el-button v-if="$store.getters['user/isPermitted']('Inventory:update:*')" type="primary"
                        @click="form=s.row;visible.edit=true">修改
             </el-button>
-            <el-button v-if="$store.getters.isPermitted('Inventory:del:*')" type="danger" @click="del(s.row.uuid)">删除</el-button>
+            <el-button v-if="$store.getters['user/isPermitted']('Inventory:del:*')" type="danger" @click="del(s.row.uuid)">删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>

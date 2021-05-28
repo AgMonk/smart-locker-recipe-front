@@ -20,7 +20,7 @@
         <el-option v-for="(item,i) in ['待提交','已提交','已派单','待审核','已完成','已撤单']"
                    :key="i" :label="item" :value="item"/>
       </el-select>
-      <my-button v-if="$store.getters.isPermitted('InstallationOrder:add:*')" text="添加" type="primary"
+      <my-button v-if="$store.getters['user/isPermitted']('InstallationOrder:add:*')" text="添加" type="primary"
                  @click="visible.add=true;form=undefined"/>
       <my-button text="导出" @click="exportData"/>
     </el-header>
@@ -181,7 +181,7 @@ export default {
         this.$message(e.message)
       })
     },
-    ...mapActions(["updateLoginState"])
+    ...mapActions('user', ["updateLoginState"])
   },
   mounted() {
     let date = new Date();
