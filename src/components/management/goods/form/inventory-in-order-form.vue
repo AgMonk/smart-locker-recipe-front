@@ -50,7 +50,7 @@ export default {
       }
       if (response.code === 2000) {
         findByOrderUuid(this.myData).then(res => {
-          this.list = res.data.map(item => {
+          this.list = res.map(item => {
             let element = this.inventory.filter(i => i.uuid === item.inventoryUuid)[0];
             return Object.assign({}, element, item);
           })
@@ -62,7 +62,7 @@ export default {
     },
     findAllInventory() {
       baseFindAll("/Inventory").then(res => {
-        this.inventory = res.data;
+        this.inventory = res;
         this.findByOrderUuid({code: 2000});
       })
     },

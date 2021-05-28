@@ -16,8 +16,8 @@ export const request = ({url, params, data, method = "post", success}) => {
       url: "/api" + url,
       method, params, data,
     }).then(res => {
-      if (res.data) {
-        let d = res.data
+      if (res) {
+        let d = res
         if (d.code === 2000) {
           if (success) {
             success(d)

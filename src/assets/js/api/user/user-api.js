@@ -1,14 +1,7 @@
 //用户api
-import {request, requestWithCache} from "../../requestUtils";
+import {request} from "../../requestUtils";
 
 let prefix = "/user"
-
-export const getStatus = (success) => {
-  return request({
-    url: prefix + "/status"
-    , success
-  })
-}
 
 export const login = ({username, password, success}) => {
   return request({

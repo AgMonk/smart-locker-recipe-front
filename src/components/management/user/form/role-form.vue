@@ -50,18 +50,18 @@ export default {
   },
   methods: {
     save(){
-      baseSave("/role",this.role,(res) => this.$message(res.message)).then(res=>{
+      baseSave("/role", this.role, (res) => this.$message(res.message)).then(() => {
         this.$emit("success");
       })
     },
-    remarkFilterMethod(value, row, column){
+    remarkFilterMethod(value, row) {
       return row.remark.includes(value);
     },
     findAll(){
       let permId = this.role.permissions.map(p=>p.id)
 
       baseFindAll("/permission").then(res => {
-        this.permissions = res.data;
+        this.permissions = res;
 
         setTimeout(()=>{
           this.permissions.forEach(perm=>{

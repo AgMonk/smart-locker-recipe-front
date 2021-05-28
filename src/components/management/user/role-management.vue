@@ -87,7 +87,7 @@ export default {
     page() {
       basePage(this.prefix, this.param.page, (res) => this.$message(res.message))
         .then(res => {
-          let d = res.data;
+          let d = res;
           this.data.records = d.records;
           this.data.total = d.total;
         })

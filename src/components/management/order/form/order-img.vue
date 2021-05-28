@@ -32,7 +32,7 @@ export default {
         params: {uuid}
       }).then(res => {
         this.srcList = [];
-        res.data.forEach(name => {
+        res.forEach(name => {
           this.srcList.push("/img/" + uuid + "/" + name);
         })
         this.src = this.srcList[0];

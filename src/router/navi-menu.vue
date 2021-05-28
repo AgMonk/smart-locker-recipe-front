@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import {getStatus} from "../assets/js/api/user/user-api";
 import {copyObj} from "../assets/js/utils";
 
 export default {
@@ -41,28 +40,15 @@ export default {
         return;
       }
       this.$router.push(e);
-    },
-    checkStatus(e){
-      if (e.path === "/me") {
-        return;
-      }
-      getStatus()
-        .then(()=>{
-        })
-        .catch(()=>{
-          this.$router.push("/me")
-        })
     }
   },
   mounted() {
     this.myRouter = copyObj(this.router);
-    this.$store.dispatch("user/updateLoginState")
   },
   watch: {
     "$route":{
       handler(e) {
         console.clear()
-        console.log(e)
         if (e.path !== '/home') {
           this.$store.dispatch("user/updateLoginState")
         }

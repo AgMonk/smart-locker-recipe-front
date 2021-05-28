@@ -57,7 +57,7 @@ export default {
       })
     },
     findAllAreas(){
-      baseFindAll("/UserArea").then(res=>this.areas=res.data);
+      baseFindAll("/UserArea").then(res => this.areas = res);
     },
   },
   mounted() {

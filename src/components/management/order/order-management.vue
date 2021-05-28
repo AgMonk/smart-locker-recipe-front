@@ -160,7 +160,7 @@ export default {
     },
     findAllInventory() {
       baseFindAll("/Inventory").then(res => {
-        this.inventory = res.data;
+        this.inventory = res;
       })
     },
     del(id) {
@@ -176,7 +176,7 @@ export default {
       p.start /= 1000;
       p.end /= 1000;
       basePage(this.prefix, p, undefined).then(res => {
-        this.data = res.data;
+        this.data = res;
       }).catch(e => {
         this.$message(e.message)
       })
@@ -194,11 +194,11 @@ export default {
     this.param.page.start = now - 30 * 24 * 60 * 60 * 1000;
     this.param.page.end = now;
 
-
-    this.updateLoginState().then(() => {
-      this.findAllInventory()
-      this.page()
-    })
+    this.$store.dispatch("user/updateLoginState")
+      .then(() => {
+        this.findAllInventory()
+        this.page()
+      })
 
   },
   props: [],

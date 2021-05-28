@@ -83,7 +83,7 @@ export default {
     },
     page() {
       basePage(this.prefix, this.param.page, undefined).then(res => {
-        this.data = res.data;
+        this.data = res;
       })
     },
   },

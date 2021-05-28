@@ -1,3 +1,5 @@
+// noinspection RedundantIfStatementJS
+
 import {request} from "../assets/js/AxiosUtils";
 
 export const user = {
@@ -5,9 +7,10 @@ export const user = {
   state: {
     loginState: false,
     roles: [],
+    info: {},
   },
   actions: {
-    updateLoginState({commit, dispatch, state}) {
+    updateLoginState({dispatch, state}) {
       console.log("检查登陆状态")
       return new Promise((resolve, reject) => {
         request({
@@ -35,6 +38,37 @@ export const user = {
         state.roles = res
       })
     },
+    info({state}) {
+      if (state.info.id) {
+        return;
+      }
+      return request({
+        url: "/user/info"
+      }).then(res => {
+        state.info = res;
+      })
+    },
+    logout({state}) {
+      request({
+        url: "/user/logout"
+      }).then(() => {
+        state.loginState = false;
+        state.roles = [];
+        state.info = {};
+      })
+    },
+    login({commit, dispatch, state}, params) {
+      return new Promise(resolve => {
+        request({
+          url: "user/login",
+          params
+        }).then(() => {
+          dispatch("updateLoginState").then(() => {
+            resolve()
+          })
+        })
+      })
+    }
   },
   getters: {
     permissions(state) {

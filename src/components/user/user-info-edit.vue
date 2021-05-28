@@ -44,7 +44,7 @@ export default {
       editUserInfo(this.param).then(() => this.$emit("success")).catch(e=>this.$message(e.data[0]))
     },
     findAllAreas(){
-      baseFindAll("/UserArea").then(res=>this.areas=res.data);
+      baseFindAll("/UserArea").then(res => this.areas = res);
     },
   },
   mounted() {

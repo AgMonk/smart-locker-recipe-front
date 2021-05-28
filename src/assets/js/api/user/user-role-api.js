@@ -1,11 +1,10 @@
-import {request, requestWithCache} from "../../requestUtils";
+import {request} from "../../AxiosUtils";
 
 let prefix = "/user_role"
 
-export const hasRoles = (userId,success) => {
+export const hasRoles = userId => {
   return request({
     url: prefix + "/hasRoles",
-    params:{userId},
-    success
+    params: {userId},
   })
 }

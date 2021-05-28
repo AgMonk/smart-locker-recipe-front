@@ -27,14 +27,13 @@
       <user-info-edit :data="userInfo" @success="visible.editUserInfo=false;info()"/>
     </el-dialog>
     <el-dialog :visible.sync="visible.editPassword" title="修改密码">
-      <password-edit @success="reload" />
+      <password-edit @success="reload"/>
     </el-dialog>
 
   </el-container>
 </template>
 
 <script>
-import {userInfo} from "../../assets/js/api/user/user-api";
 import UserInfoEdit from "./user-info-edit";
 import PasswordEdit from "./password-edit";
 
@@ -51,19 +50,14 @@ export default {
     }
   },
   methods: {
-    reload(){
+    reload() {
       window.location.reload();
     },
-    info() {
-      userInfo({}).then(res => {
-        if (res.code === 2000) {
-          this.userInfo = res.data;
-        }
-      })
-    }
   },
   mounted() {
-    this.info()
+    this.$store.dispatch("user/info").then(() => {
+      this.userInfo = this.$store.state.user.info
+    })
   },
   props: [],
 }

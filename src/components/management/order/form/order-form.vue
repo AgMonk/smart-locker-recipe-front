@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     findAllAreas(){
-      baseFindAll("/UserArea").then(res=>this.areas=res.data);
+      baseFindAll("/UserArea").then(res => this.areas = res);
     },
     splice(i){
       this.myData.inventoryList.splice(i,1)
@@ -98,7 +98,7 @@ export default {
     },
     findAllInventory() {
       baseFindAll("/Inventory").then(res => {
-        this.inventory = res.data;
+        this.inventory = res;
         this.aInventory = this.inventory.filter(i => i.amount > 0);
       })
     },
@@ -106,17 +106,17 @@ export default {
       if (this.myData.uuid) {
         //  修改
         if (this.myData.status === '已派单') {
-          editInventory(this.myData, (res) => this.$message(res.message)).then(res => {
+          editInventory(this.myData, (res) => this.$message(res.message)).then(() => {
             this.$emit("success");
           })
         }else {
-          baseUpdate(this.prefix, this.myData, (res) => this.$message(res.message)).then(res => {
+          baseUpdate(this.prefix, this.myData, (res) => this.$message(res.message)).then(() => {
             this.$emit("success");
           })
         }
       } else {
         //  添加
-        baseAdd(this.prefix, this.myData, (res) => this.$message(res.message)).then(res => {
+        baseAdd(this.prefix, this.myData, (res) => this.$message(res.message)).then(() => {
           this.$emit("success");
         }).catch(e => {
           this.$message(e.data[0])

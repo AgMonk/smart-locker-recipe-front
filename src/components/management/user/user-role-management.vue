@@ -58,15 +58,15 @@ export default {
     findAll() {
       //查询全部角色
       baseFindAll("/role").then(res => {
-        this.rolePool = res.data;
+        this.rolePool = res;
         this.hasRoles()
       })
     },
     hasRoles() {
       //查询当前用户的角色
-      hasRoles(this.userId, (res) => this.$message(res.message))
+      hasRoles(this.userId)
         .then(res => {
-          this.userRoles = res.data.map(role => {
+          this.userRoles = res.map(role => {
             let uuid = role.uuid;
             let ro = this.rolePool.filter(r => r.id === role.roleId)[0];
             return Object.assign({uuid}, ro)

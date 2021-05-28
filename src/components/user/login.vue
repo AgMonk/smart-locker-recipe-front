@@ -14,10 +14,6 @@
 </template>
 
 <script>
-import {login} from "../../assets/js/api/user/user-api";
-import {clearCache} from "../../assets/js/requestUtils";
-import {hasRoles} from "../../assets/js/api/user/role-api";
-
 export default {
   name: "login",
   data() {
@@ -30,17 +26,8 @@ export default {
   },
   methods: {
     login() {
-      login({
-        username: this.param.username,
-        password: this.param.password,
-      }).then(res => {
-        this.$emit("success", res.code === 2000)
-        clearCache()
-        this.$store.state.user.loginState = res.code === 2000;
-        hasRoles().then(r => {
-          this.$store.state.user.roles = r.data;
-          // this.$router.push("/home")
-        })
+      this.$store.dispatch("user/login", this.param).then(() => {
+        this.$message.success("登陆成功")
       })
     }
   },

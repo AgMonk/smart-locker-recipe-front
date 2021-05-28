@@ -20,7 +20,7 @@
             <el-main>
               <el-tabs v-model="tabs">
                 <el-tab-pane label="登陆" name="登陆">
-                  <login @success="logged=$event"/>
+                  <login/>
                 </el-tab-pane>
                 <el-tab-pane label="注册" name="注册">
                   <reg @success="tabs='登陆'"/>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import {logout} from "../../assets/js/api/user/user-api";
 import Login from "../user/login";
 import Reg from "../user/reg";
 import {clearCache} from "../../assets/js/requestUtils";
@@ -61,11 +60,7 @@ export default {
       if (!confirm("确认登出？")) {
         return
       }
-      logout({
-        success: (res) => this.$message(res.message)
-      }).then(() => {
-        window.location.reload()
-      })
+      this.$store.dispatch("user/logout")
     },
     clearCache() {
       if (!confirm("清除缓存？")){

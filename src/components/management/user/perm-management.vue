@@ -43,8 +43,6 @@
 </template>
 
 <script>
-import {copyObj} from "../../../assets/js/utils";
-import {page} from "../../../assets/js/api/user/role-api";
 import {baseDel, basePage} from "../../../assets/js/api/baseApi";
 import PermForm from "./form/perm-form";
 
@@ -82,7 +80,7 @@ export default {
     page(){
       basePage(this.prefix,this.param.page,(res) => this.$message(res.message))
       .then(res=>{
-        let d = res.data;
+        let d = res;
         this.data.records = d.records;
         this.data.total = d.total;
       })

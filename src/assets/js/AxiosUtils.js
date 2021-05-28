@@ -3,7 +3,7 @@ import Vue from "vue";
 
 export const request = axios.create({
   baseURL: '/api',
-  timeout: 6000,
+  timeout: 10 * 1000,
   method: "post",
   //跨域时携带凭证
   withCredentials: true,
@@ -11,14 +11,14 @@ export const request = axios.create({
   maxRedirects: 0,
 });
 
-// // 添加请求拦截器
-// instance.interceptors.request.use(function (config) {
-//   // 在发送请求之前做些什么
-//   return config;
-// }, function (error) {
-//   // 对请求错误做些什么
-//   return Promise.reject(error);
-// });
+// 添加请求拦截器
+request.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  return config;
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error);
+});
 
 // 添加响应拦截器
 request.interceptors.response.use(function (response) {

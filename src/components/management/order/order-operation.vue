@@ -111,7 +111,7 @@ export default {
           }
         }
         basePage("/user/a", param, (res) => this.$message(res.message)).then(res => {
-          this.installers = res.data.records;
+          this.installers = res.records;
         }).catch(e => {
           this.$message(e.message)
         })

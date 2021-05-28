@@ -1,46 +1,47 @@
-import {request} from "../requestUtils";
+import {request} from "../AxiosUtils";
 
-export const baseDel = (prefix,id, success) => {
+
+export const baseDel = (prefix, id) => {
   return request({
     url: prefix + "/del",
     params: {id},
-    success
+
   })
 }
 
-export const baseFindAll = (prefix,success) => {
+export const baseFindAll = (prefix) => {
   return request({
     url: prefix + "/findAll",
-    success
+
   })
 }
 
-export const basePage = (prefix,{page=1, size=10, start, end, condition}, success) => {
+export const basePage = (prefix, {page = 1, size = 10, start, end, condition}) => {
   return request({
     url: prefix + "/page",
-    data :{page, size, start, end, condition},
-    success
+    data: {page, size, start, end, condition},
+
   })
 }
 
-export const baseSave = (prefix,data,success) => {
+export const baseSave = (prefix, data) => {
   return request({
     url: prefix + "/save",
     data,
-    success
+
   })
 }
-export const baseAdd = (prefix,data,success) => {
+export const baseAdd = (prefix, data) => {
   return request({
     url: prefix + "/add",
     data,
-    success
+
   })
 }
-export const baseUpdate = (prefix,data,success) => {
+export const baseUpdate = (prefix, data) => {
   return request({
     url: prefix + "/update",
     data,
-    success
+
   })
 }

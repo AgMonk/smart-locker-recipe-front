@@ -67,7 +67,7 @@ export default {
   methods: {
     page(){
       basePage(this.prefix,this.param.page,(res) => this.$message(res.message)).then(res=>{
-        this.data = res.data;
+        this.data = res;
       })
     },
     del(id){

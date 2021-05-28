@@ -70,7 +70,7 @@ export default {
       let p = copyObj(this.param.page)
       p.success = (res) => this.$message(res.message)
       page(p).then(res => {
-        let d = res.data;
+        let d = res;
         this.data.records = d.records;
         this.data.total = d.total;
       })

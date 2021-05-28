@@ -47,7 +47,6 @@ import {baseDel, basePage} from "../../../assets/js/api/baseApi";
 import InventoryForm from "./form/inventory-form";
 
 
-
 export default {
   name: "inventory-recipe-management",
   components: {InventoryForm, GoodsForm},
@@ -81,7 +80,7 @@ export default {
     },
     page() {
       basePage(this.prefix, this.param.page, undefined).then(res => {
-        this.data = res.data;
+        this.data = res;
       })
     },
   },
