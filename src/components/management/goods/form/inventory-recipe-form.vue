@@ -14,9 +14,8 @@
 
 <script>
 import ArrayManager from "../../../utils/array-manager";
-import {copyObj} from "../../../../assets/js/utils";
-import {baseAdd, baseUpdate} from "../../../../assets/js/api/baseApi";
-import {request} from "../../../../assets/js/requestUtils";
+import {request} from "../../../../assets/js/AxiosUtils";
+
 export default {
   name: "inventory-recipe-form",
   components: {ArrayManager},
@@ -24,8 +23,8 @@ export default {
     return {
       prefix: "/InventoryRecipe",
       myData: {
-        inventoryUuid:undefined,
-        reason:undefined,
+        inventoryUuid: undefined,
+        reason: undefined,
         amount:undefined,
       }
     }
@@ -33,23 +32,21 @@ export default {
   methods: {
     inRecipe(){
       request({
-        url:"/"+this.prefix+"/in",
-        data:this.myData,
-        success:(res) => this.$message(res.message)
-      })  .then(()=>this.$emit("success"))
+        url: "/" + this.prefix + "/in",
+        data: this.myData,
+      }).then(() => this.$emit("success")
+      )
     },
     outRecipe(){
       request({
         url:"/"+this.prefix+"/out",
         data:this.myData,
-        success:(res) => this.$message(res.message)
       })  .then(()=>this.$emit("success"))
     },
     checkRecipe(){
       request({
         url:"/"+this.prefix+"/check",
         data:this.myData,
-        success:(res) => this.$message(res.message)
       })  .then(()=>this.$emit("success"))
     },
     copy(obj){

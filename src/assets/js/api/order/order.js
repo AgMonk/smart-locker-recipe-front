@@ -1,69 +1,68 @@
-import {request} from "../../requestUtils";
+import {request} from "../../AxiosUtils";
 
 let prefix = "/InstallationOrder"
 
-export const submit = (uuid,success)=> {
+export const submit = (uuid,) => {
 
   return request({
     url: prefix + "/submit",
     params: {uuid},
-    success
   })
 }
 
-export const complete = (uuid,success)=> {
+export const complete = (uuid,) => {
 
   return request({
     url: prefix + "/complete",
     params: {uuid},
-    success
+
   })
 }
 
-export const confirmOrder = (uuid,success)=> {
+export const confirmOrder = (uuid,) => {
   return request({
     url: prefix + "/confirm",
     params: {uuid},
-    success
+
   })
 }
 
-export const assignOrder = (param,success)=>{
-return request({
+export const assignOrder = (param,) => {
+  return request({
     url: prefix + "/assign",
     params: param,
-    success
+
   })
 }
 
-export const abandon = (param,success)=>{
+export const abandon = (param,) => {
   return request({
     url: prefix + "/abandon",
     params: param,
-    success
+
   })
 }
 
-export const editInventory = (data, success)=>{
+export const editInventory = (data,) => {
   return request({
     url: prefix + "/editInventory",
     data,
-    success
+
   })
 }
 
-export const  findByOrderUuid = (orderUuid,success)=>{
+export const findByOrderUuid = (orderUuid,) => {
   return request({
-    url:"/InventoryInOrder/findByOrderUuid",
-    params:{orderUuid},
-    success
+    url: "/InventoryInOrder/findByOrderUuid",
+    params: {orderUuid},
+
   })
 }
 
-export const updateSn = (uuid,sn,success)=>{
+export const updateSn = (uuid, sn,) => {
   return request({
-    url:"/InventoryInOrder/updateSn",
-    params:{uuid,sn},
-    success
+    url: "/InventoryInOrder/updateSn",
+    params: {uuid, sn},
+
   })
 }

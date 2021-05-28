@@ -1,61 +1,62 @@
 //用户api
-import {request} from "../../requestUtils";
+
+import {request} from "../../AxiosUtils";
 
 let prefix = "/user"
 
-export const login = ({username, password, success}) => {
+export const login = ({username, password,}) => {
   return request({
     url: prefix + "/login",
     params: {username, password},
-    success
+
   })
 }
 
-export const logout = ({success}) => {
+export const logout = ({}) => {
   return request({
     url: prefix + "/logout",
-    success
+
   })
 }
 
-export const reg = ({username, password, name,phone,area,success})=>{
+export const reg = ({username, password, name, phone, area,}) => {
   return request({
     url: prefix + "/reg",
-    data:{username, password, name,phone,area},
-    success
+    data: {username, password, name, phone, area},
+
   })
 }
 
-export const userInfo = ({success}) => {
+export const userInfo = ({}) => {
   return request({
     url: prefix + "/info",
     namespace: "userInfo",
-    success
+
   })
 }
 
-export const editUserInfo =({phone,name,area,success})=>{
+export const editUserInfo = ({phone, name, area,}) => {
   return request({
-    data:{phone,name,area},
+    data: {phone, name, area},
     url: prefix + "/editUserInfo",
     namespace: "userInfo",
-    success
+
   })
 }
 
-export const editPassword = ({oldPass,newPass,success})=>{
+export const editPassword = ({oldPass, newPass,}) => {
   return request({
     url: prefix + "/editPassword",
-    params:{oldPass,newPass},
-    success
+    params: {oldPass, newPass},
+
   })
 }
 
-export const page = ({page,size,condition,success})=>{
+export const page = ({page, size, condition,}) => {
   return request({
     url: prefix + "/a/page",
-    data:{page,size,condition},
+    data: {page, size, condition},
     namespace: "user-page",
-    success
+
   })
 }

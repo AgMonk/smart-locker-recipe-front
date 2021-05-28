@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import {request} from "../../../../assets/js/requestUtils";
 import {copyObj} from "../../../../assets/js/utils";
 import MyButton from "../../my/my-button";
+import {request} from "../../../../assets/js/AxiosUtils";
 
 export default {
   name: "order-img",
