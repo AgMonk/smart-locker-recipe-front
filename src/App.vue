@@ -12,9 +12,9 @@
       <el-main style="padding: 0">
         <router-view v-if="show"/>
       </el-main>
-      <!--      <el-footer>-->
-      <!--        测试-->
-      <!--      </el-footer>-->
+      <el-footer>
+        测试
+      </el-footer>
     </el-container>
 
   </div>
