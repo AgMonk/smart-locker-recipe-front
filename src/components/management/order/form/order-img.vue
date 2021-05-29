@@ -1,12 +1,14 @@
 <template>
- <div>
-   <el-image
-     style="width: 100px; height: 100px"
-     :src="src"
-     :preview-src-list="srcList">
-   </el-image>
-   <my-button text="刷新照片" @click="listImg(myData)"/>
- </div>
+  <div
+    v-if="srcList.length>0"
+  >
+    <el-image
+      :preview-src-list="srcList"
+      :src="src"
+      style="width: 100px; height: 100px">
+    </el-image>
+    <my-button text="刷新照片" @click="listImg(myData)"/>
+  </div>
 
 </template>
 
@@ -21,8 +23,8 @@ export default {
   data() {
     return {
       myData: {},
-      src:undefined,
-      srcList:[],
+      src: undefined,
+      srcList: [],
     }
   },
   methods: {
