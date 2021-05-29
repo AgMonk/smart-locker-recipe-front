@@ -12,7 +12,6 @@ export const baseDel = (prefix, id) => {
 export const baseFindAll = (prefix) => {
   return request({
     url: prefix + "/findAll",
-
   })
 }
 

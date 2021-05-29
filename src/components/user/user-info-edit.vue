@@ -24,7 +24,6 @@
 
 <script>
 import {editUserInfo} from "../../assets/js/api/user/user-api";
-import {baseFindAll} from "../../assets/js/api/baseApi";
 
 export default {
   name: "user-info-edit",
@@ -43,12 +42,10 @@ export default {
       this.param.success = (res) => this.$message(res.message)
       editUserInfo(this.param).then(() => this.$emit("success")).catch(e=>this.$message(e.data[0]))
     },
-    findAllAreas(){
-      baseFindAll("/UserArea").then(res => this.areas = res);
-    },
   },
   mounted() {
-    this.findAllAreas();
+    this.areas = this.$store.state.user.areas;
+
     this.param = this.data;
   },
   watch: {

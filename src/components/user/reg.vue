@@ -33,7 +33,6 @@
 <script>
 
 import {reg} from "../../assets/js/api/user/user-api";
-import {baseFindAll} from "../../assets/js/api/baseApi";
 
 export default {
   name: "reg",
@@ -56,12 +55,9 @@ export default {
         this.$message(e.data[0])
       })
     },
-    findAllAreas(){
-      baseFindAll("/UserArea").then(res => this.areas = res);
-    },
   },
   mounted() {
-    this.findAllAreas();
+    this.areas = this.$store.state.user.areas;
   },
 }
 </script>

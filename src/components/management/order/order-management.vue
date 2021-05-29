@@ -48,10 +48,10 @@
               <el-form-item label="备注" v-if="s.row.remark">{{ s.row.remark }}</el-form-item>
               <el-form-item label="撤单备注" v-if="s.row.abandonedRemark">{{ s.row.abandonedRemark }}</el-form-item>
               <el-form-item label="商品">
-                <div v-for="(v,k) in s.row.inventoryList" :key="k">
-                  {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].model }}
-                  {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].color }}
-                  {{ inventory.filter(i => i.uuid === v.inventoryUuid)[0].size }}
+                <div v-for="(v,k) in s.row.inventoryList" v-if="inventory[v.inventoryUuid]" :key="k">
+                  {{ inventory[v.inventoryUuid].model }}
+                  {{ inventory[v.inventoryUuid].color }}
+                  {{ inventory[v.inventoryUuid].size }}
                 </div>
               </el-form-item>
               <el-form-item label="照片">
@@ -95,7 +95,7 @@
 
 <script>
 import OrderForm from "./form/order-form";
-import {baseDel, baseFindAll, basePage} from "../../../assets/js/api/baseApi";
+import {baseDel, basePage} from "../../../assets/js/api/baseApi";
 import {copyObj, getClientWidth} from "../../../assets/js/utils";
 import MyButton from "../my/my-button";
 import OrderUpload from "./order-upload";
@@ -159,9 +159,10 @@ export default {
       return getClientWidth() <= 1 ? "90%" : "50%"
     },
     findAllInventory() {
-      baseFindAll("/Inventory").then(res => {
-        this.inventory = res;
-      })
+      this.$store.dispatch("inventory/findAll").then(() => {
+        this.inventory = this.$store.state.inventory.map
+        console.log(this.inventory)
+      });
     },
     del(id) {
       if (!confirm("确认删除?")) {
@@ -175,7 +176,7 @@ export default {
       let p = copyObj(this.param.page)
       p.start /= 1000;
       p.end /= 1000;
-      basePage(this.prefix, p, undefined).then(res => {
+      basePage(this.prefix, p).then(res => {
         this.data = res;
       }).catch(e => {
         this.$message(e.message)

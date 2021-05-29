@@ -20,10 +20,10 @@
             <el-main>
               <el-tabs v-model="tabs">
                 <el-tab-pane label="登陆" name="登陆">
-                  <login/>
+                  <login v-if="tabs==='登陆'"/>
                 </el-tab-pane>
                 <el-tab-pane label="注册" name="注册">
-                  <reg @success="tabs='登陆'"/>
+                  <reg v-if="tabs==='注册'" @success="tabs='登陆'"/>
                 </el-tab-pane>
               </el-tabs>
             </el-main>

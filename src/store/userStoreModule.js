@@ -1,6 +1,7 @@
 // noinspection RedundantIfStatementJS
 
 import {request} from "../assets/js/AxiosUtils";
+import {baseFindAll} from "../assets/js/api/baseApi";
 
 export const user = {
   namespaced: true,
@@ -8,7 +9,10 @@ export const user = {
     loginState: false,
     roles: [],
     info: {},
+
+    areas: [],
   },
+  mutations: {},
   actions: {
     updateLoginState({dispatch, state}) {
       console.log("检查登陆状态")
@@ -68,7 +72,12 @@ export const user = {
           })
         })
       })
-    }
+    },
+    findAllAreas({state}) {
+      return baseFindAll("/UserArea").then(res => {
+        state.areas = res;
+      })
+    },
   },
   getters: {
     permissions(state) {

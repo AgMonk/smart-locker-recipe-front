@@ -29,7 +29,6 @@
 <script>
 import {findByOrderUuid, updateSn} from "../../../../assets/js/api/order/order";
 import {copyObj} from "../../../../assets/js/utils";
-import {baseFindAll} from "../../../../assets/js/api/baseApi";
 
 export default {
   name: "inventory-in-order-form",
@@ -51,7 +50,8 @@ export default {
       if (response.code === 2000) {
         findByOrderUuid(this.myData).then(res => {
           this.list = res.map(item => {
-            let element = this.inventory.filter(i => i.uuid === item.inventoryUuid)[0];
+            // let element = this.inventory.filter(i => i.uuid === item.inventoryUuid)[0];
+            let element = this.inventory[item.inventoryUuid];
             return Object.assign({}, element, item);
           })
           console.log(this.list)
@@ -60,25 +60,18 @@ export default {
         this.$message(response.message)
       }
     },
-    findAllInventory() {
-      baseFindAll("/Inventory").then(res => {
-        this.inventory = res;
-        this.findByOrderUuid({code: 2000});
-      })
-    },
     updateSn(uuid, sn) {
       updateSn(uuid, sn, (res) => this.$message(res.message))
     },
   },
   mounted() {
     this.copy(this.data)
-    this.findAllInventory();
+    this.inventory = this.$store.state.inventory.map
   },
   watch: {
     "data": {
       handler: function (e) {
         this.copy(e)
-        this.findAllInventory();
       }
     }
   },

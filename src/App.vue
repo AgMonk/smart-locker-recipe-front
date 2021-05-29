@@ -36,6 +36,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch("user/updateLoginState").then(() => this.show = true).catch(() => this.show = true)
+
+    this.$store.dispatch("user/findAllAreas");
   }
 }
 </script>
