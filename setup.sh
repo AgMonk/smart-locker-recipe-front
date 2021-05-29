@@ -11,3 +11,4 @@ docker run -p 18900:80 -d --name smart-locker-recipe-front smart-locker-recipe-f
 docker logs smart-locker-recipe-front;
 #删除build过程中产生的镜像    #docker image prune -a -f
 #docker rmi $(docker images -f "dangling=true" -q)
+docker rmi $(docker images -f "dangling=true" -q)
