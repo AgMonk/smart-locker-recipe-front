@@ -161,7 +161,6 @@ export default {
     findAllInventory() {
       this.$store.dispatch("inventory/findAll").then(() => {
         this.inventory = this.$store.state.inventory.map
-        console.log(this.inventory)
       });
     },
     del(id) {

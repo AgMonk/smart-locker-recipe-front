@@ -79,7 +79,7 @@ export default {
       baseDel(this.prefix,id,(res) => this.$message(res.message)).then(()=>this.page())
     },
     page() {
-      basePage(this.prefix, this.param.page, undefined).then(res => {
+      basePage(this.prefix, this.param.page).then(res => {
         this.data = res;
       })
     },

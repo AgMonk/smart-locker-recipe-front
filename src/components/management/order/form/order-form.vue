@@ -29,7 +29,7 @@
     </el-form-item>
     <el-form-item label="商品">
       <el-select v-model="addGoods" placeholder="添加商品" @change="add" style="width: 100%">
-        <el-option v-for="item in aInventory"
+        <el-option v-for="item in inventory"
                    :value="item.uuid"
                    :key="item.uuid"
                    :label="item.model+' '+item.color+' '+item.size+' X '+item.amount"
