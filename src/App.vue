@@ -3,15 +3,18 @@
     <!--    <navi/>-->
     <el-container>
 <!--      <el-aside v-if="getClientWidth()<2">-->
-<!--        1-->
-<!--      </el-aside>-->
-      <el-header  style="padding: 0">
-<!--      <el-header v-if="getClientWidth()>=2" style="padding: 0">-->
+      <!--        1-->
+      <!--      </el-aside>-->
+      <el-header style="padding: 0">
+        <!--      <el-header v-if="getClientWidth()>=2" style="padding: 0">-->
         <navi-menu v-if="show" :router="router"/>
       </el-header>
       <el-main style="padding: 0">
         <router-view v-if="show"/>
       </el-main>
+      <el-footer>
+        测试
+      </el-footer>
     </el-container>
 
   </div>
