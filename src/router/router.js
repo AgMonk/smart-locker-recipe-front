@@ -1,6 +1,5 @@
 import home from "../components/rootTab/home";
 import me from "../components/rootTab/me";
-import management from "../components/rootTab/management";
 import goods from "../components/rootTab/goods";
 import goodsManagement from "../components/management/goods/goods-management"
 import inventoryManagement from "../components/management/goods/inventory-management"
