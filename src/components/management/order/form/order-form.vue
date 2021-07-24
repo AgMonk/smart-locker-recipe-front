@@ -42,8 +42,17 @@
         <el-button size="small" @click="splice(k)"><i class="el-icon-minus"/></el-button>
       </div>
     </el-form-item>
+    <el-form-item label="日期">
+      <el-date-picker
+        v-model="myData.timestamp.timestamp"
+        placeholder="选择日期"
+        type="date"
+        value-format="timestamp"
+
+      />
+    </el-form-item>
     <el-form-item label-width="0">
-      <el-button type="danger" @click="myData={inventoryMap:{}}">重置</el-button>
+      <el-button type="danger" @click="myData={inventoryMap:{},timestamp:{}}">重置</el-button>
       <el-button type="success" @click="submit">提交</el-button>
     </el-form-item>
   </el-form>
@@ -69,6 +78,7 @@ export default {
         area: undefined,
         remark: undefined,
         inventoryList: {},
+        timestamp: {timestamp: undefined},
       },
       inventory: [],
       aInventory: [],
@@ -93,13 +103,17 @@ export default {
       this.addGoods = undefined
     },
     submit() {
+      if (this.myData.timestamp.timestamp) {
+        this.myData.timestamp.timestamp /= 1000;
+      }
+
       if (this.myData.uuid) {
         //  修改
         if (this.myData.status === '已派单') {
           editInventory(this.myData, (res) => this.$message(res.message)).then(() => {
             this.$emit("success");
           })
-        }else {
+        } else {
           baseUpdate(this.prefix, this.myData, (res) => this.$message(res.message)).then(() => {
             this.$emit("success");
           })
@@ -114,7 +128,8 @@ export default {
       }
     },
     copy(obj) {
-      this.myData = obj ? copyObj(obj) : {inventoryMap: {},};
+      this.myData = obj ? copyObj(obj) : {inventoryMap: {}, timestamp: {}};
+      this.myData.timestamp.timestamp *= 1000;
     },
   },
   mounted() {
