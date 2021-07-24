@@ -42,6 +42,7 @@ export default {
   methods: {
     copy(obj) {
       this.myData = obj ? copyObj(obj) : [];
+      this.findByOrderUuid({code: 2000})
     },
     findByOrderUuid(response) {
       if (!response) {
